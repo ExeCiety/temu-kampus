@@ -3,6 +3,10 @@
 # idea
 .idea
 
+# ops
+ops/.env
+ops/mongo_data
+
 # dependencies
 /node_modules
 /.pnp
