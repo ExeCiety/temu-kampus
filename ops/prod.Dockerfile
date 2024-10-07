@@ -8,8 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Install dependencies and build the project
-RUN bun install
-RUN bun run lint:fix && bun run build
+RUN bun install && bun run lint:fix && bun run build
 
 # Stage 2: Production Stage
 FROM oven/bun:latest

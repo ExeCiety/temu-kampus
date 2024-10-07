@@ -3,10 +3,10 @@ services:
     container_name: temu-kampus-app
     build:
       context: ../
-      dockerfile: ops/Dockerfile
+      dockerfile: ops/prod.Dockerfile
     # restart: always
     volumes:
-      - ../:/var/www/apps
+      - ../:/app
     ports:
       - ${APP_PORT}:3000
     networks:
