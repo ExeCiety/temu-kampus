@@ -1,6 +1,9 @@
 # Temu Kampus - School and Campus Event Management System
 
-Temu Kampus is an application designed to facilitate event management within school and campus environments. This application offers features such as user registration, event creation, participant registration, event calendar, and post-event feedback. With Temu Kampus, all event management processes can be carried out digitally, effectively, and efficiently.
+Temu Kampus is an application designed to facilitate event management within school and campus environments. This
+application offers features such as user registration, event creation, participant registration, event calendar, and
+post-event feedback. With Temu Kampus, all event management processes can be carried out digitally, effectively, and
+efficiently.
 
 ## Key Features
 
@@ -57,6 +60,10 @@ Temu Kampus is an application designed to facilitate event management within sch
    ```
 
 4. Access the application at `http://localhost:3000`.
+
+## API Documentation
+
+https://documenter.getpostman.com/view/7865721/2sAXxMhE3C
 
 ## License
 
