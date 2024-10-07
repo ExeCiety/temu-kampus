@@ -6,6 +6,7 @@
 # ops
 ops/.env
 ops/mongo_data
+ops/mongodb-keyfile
 
 # dependencies
 /node_modules
