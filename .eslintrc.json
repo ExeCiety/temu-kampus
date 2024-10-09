@@ -3,6 +3,9 @@
     "next/core-web-vitals",
     "next/typescript"
   ],
+  "plugins": [
+    "react"
+  ],
   "rules": {
     "semi": [
       "error",
@@ -23,6 +26,12 @@
     "quotes": [
       "error",
       "single"
+    ],
+    "react/jsx-tag-spacing": [
+      "error",
+      {
+        "beforeSelfClosing": "always"
+      }
     ]
   }
 }

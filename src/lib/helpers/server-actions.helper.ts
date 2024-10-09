@@ -1,12 +1,23 @@
-import { ReturnData } from '@/types/server-actions'
+import { ReturnData } from '@/lib/types/server-actions'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export const makeReturnData = (
-  message: string, data?: any, error?: unknown
+export const makeDefaultFormState = (
+  {
+    success = false,
+    message = '',
+    data = null,
+    errors = null
+  }: {
+    success?: boolean,
+    message?: string;
+    data?: any;
+    errors?: any
+  } = {}
 ): ReturnData => {
   return {
+    success,
     message,
     data,
-    error
+    errors
   }
 }
