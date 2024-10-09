@@ -63,7 +63,7 @@ export const verifySession = async () => {
   return { userId: session.userId as string }
 }
 
-export const destroySession = async (res: NextResponse) => {
+export const destroySession = async (res: NextResponse | null = null) => {
   if (res) {
     res.cookies.delete(authTokenCookieKey)
     return
