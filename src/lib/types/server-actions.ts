@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 export interface ReturnData {
-  message: string
-  data: any
-  error: unknown
+  success?: boolean
+  message?: string
+  data?: any
+  errors?: any
 }

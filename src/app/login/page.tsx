@@ -1,46 +1,32 @@
 'use client'
 
-import React, { useState } from 'react'
-import { login } from '@/actions/login.action'
+import Link from 'next/link'
+
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import FormLogin from '@/components/form/FormLogin'
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const [success, setSuccess] = useState('')
-
-  const handleLogin = async () => {
-    try {
-      setError('')
-      const { data } = await login(email, password)
-      setSuccess(`Login successful! JWT Token: ${data?.token}`)
-    } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message)
-      } else {
-        setError('An unknown error occurred')
-      }
-    }
-  }
-
   return (
-    <div>
-      <h1>Login</h1>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button onClick={handleLogin}>Login</button>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {success && <p style={{ color: 'green' }}>{success}</p>}
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle>Login</CardTitle>
+          <CardDescription>Enter your credentials to access your account</CardDescription>
+        </CardHeader>
+
+        <CardContent>
+          <FormLogin />
+        </CardContent>
+
+        <CardFooter className="justify-center">
+          <p className="text-sm text-gray-600">
+            Don&#39;t have an account?{' '}
+            <Link href="/register" className="text-blue-600 hover:underline">
+              Register here
+            </Link>
+          </p>
+        </CardFooter>
+      </Card>
     </div>
   )
 }

@@ -1,43 +1,57 @@
 'use server'
 
 import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
-import { makeReturnData } from '@/lib/helpers/server-actions.helper'
+
 import { prisma } from '@/lib/prisma'
-import { LoginResponseData } from '@/responses/login.response'
+import { loginSchema } from '@/lib/validations/login.validation'
+import { makeDefaultFormState } from '@/lib/helpers/server-actions.helper'
+import { createSession } from '@/lib/helpers/session.helper'
 
-// Define a server action to get all users
-export async function login(email: string, password: string): Promise<LoginResponseData> {
-  // Find the user by email
-  const user = await prisma.user.findUnique({
-    where: { email }
-  })
-  if (!user) {
-    throw new Error('User not found')
-  }
-
-  // Validate password
-  const isPasswordValid = await bcrypt.compare(password, user.password)
-  if (!isPasswordValid) {
-    throw new Error('Invalid password')
-  }
-
-  // Create JWT token
-  const token = jwt.sign(
-    { userId: user.id },
-    process.env.JWT_SECRET || '',
-    { expiresIn: '1h' }
-  )
-
-  return makeReturnData(
-    'Login successful',
-    {
-      token,
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.name
-      }
+export const login = async (
+  _prevState: unknown, formData: FormData
+) => {
+  try {
+    const form = {
+      email: formData.get('email') as string,
+      password: formData.get('password') as string
     }
-  )
+
+    // Validation
+    const validationResult = loginSchema.safeParse(form)
+    if (!validationResult.success) {
+      return makeDefaultFormState({
+        errors: validationResult.error.flatten().fieldErrors
+      })
+    }
+
+    // Find the user by email
+    const user = await prisma.user.findUnique({
+      where: { email: form.email }
+    })
+    if (!user) {
+      return makeDefaultFormState({
+        message: 'User not found'
+      })
+    }
+
+    // Validate password
+    const isPasswordValid = await bcrypt.compare(form.password, user.password)
+    if (!isPasswordValid) {
+      return makeDefaultFormState({
+        message: 'Invalid password'
+      })
+    }
+
+    // Create Session
+    await createSession(user.id.toString())
+
+    return makeDefaultFormState({
+      success: true,
+      message: 'Login successful'
+    })
+  } catch (err) {
+    return makeDefaultFormState({
+      message: err instanceof Error ? err.message : 'An error occurred'
+    })
+  }
 }
