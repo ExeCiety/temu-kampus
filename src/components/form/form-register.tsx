@@ -4,7 +4,7 @@ import { useFormState } from 'react-dom'
 import { useEffect } from 'react'
 import toast from 'react-hot-toast'
 
-import { register } from '@/actions/register.action'
+import { register } from '@/actions/auth.action'
 
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'

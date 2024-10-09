@@ -1,7 +1,7 @@
 'use client'
 
-import { Toaster } from 'react-hot-toast'
 import Link from 'next/link'
+import { Toaster } from 'react-hot-toast'
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import FormRegister from '@/components/form/form-register'

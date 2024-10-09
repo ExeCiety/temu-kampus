@@ -2,10 +2,10 @@
 
 import { useEffect } from 'react'
 import { useFormState } from 'react-dom'
-import toast, { Toaster } from 'react-hot-toast'
 import { redirect, RedirectType } from 'next/navigation'
+import toast from 'react-hot-toast'
 
-import { login } from '@/actions/login.action'
+import { login } from '@/actions/auth.action'
 
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
@@ -28,8 +28,6 @@ export default function FormLogin() {
 
   return (
     <form action={formAction} method="POST">
-      <Toaster position="top-center" reverseOrder={false} />
-
       <div className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
