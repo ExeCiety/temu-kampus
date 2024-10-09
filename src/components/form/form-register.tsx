@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 
 import { makeDefaultFormState } from '@/lib/helpers/server-actions.helper'
-import ButtonSubmit from '@/components/button/ButtonSubmit'
+import ButtonSubmit from '@/components/button/button-submit'
 
 export default function FormRegister() {
   const [formState, formAction] = useFormState(register, makeDefaultFormState())

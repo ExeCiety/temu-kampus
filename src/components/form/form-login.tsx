@@ -9,7 +9,7 @@ import { login } from '@/actions/login.action'
 
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
-import ButtonSubmit from '@/components/button/ButtonSubmit'
+import ButtonSubmit from '@/components/button/button-submit'
 
 import { makeDefaultFormState } from '@/lib/helpers/server-actions.helper'
 

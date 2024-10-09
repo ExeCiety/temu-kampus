@@ -4,7 +4,7 @@ import { Toaster } from 'react-hot-toast'
 import Link from 'next/link'
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import FormRegister from '@/components/form/FormRegister'
+import FormRegister from '@/components/form/form-register'
 
 export default function RegisterPage() {
   return (
