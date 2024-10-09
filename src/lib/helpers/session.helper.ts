@@ -1,9 +1,11 @@
 import 'server-only'
+
 import { JWTPayload, jwtVerify, SignJWT } from 'jose'
 import { appEnvs } from '@/lib/helpers/env.helper'
 import { cookies } from 'next/headers'
 import { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies'
 import { redirect } from 'next/navigation'
+import { NextResponse } from 'next/server'
 
 export const authTokenCookieKey = 'auth_token'
 export const authTokenExp = '1d'
@@ -61,6 +63,13 @@ export const verifySession = async () => {
   return { userId: session.userId as string }
 }
 
-export const destroySession = async () => {
-  cookies().delete(authTokenCookieKey)
+export const destroySession = async (res: NextResponse) => {
+  if (res) {
+    res.cookies.delete(authTokenCookieKey)
+    return
+  }
+
+  if (cookies().has(authTokenCookieKey)) {
+    cookies().delete(authTokenCookieKey)
+  }
 }
