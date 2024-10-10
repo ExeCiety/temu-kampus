@@ -1,15 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
-import { authTokenCookieKey, decrypt, destroySession } from '@/lib/helpers/session.helper'
+import { getToken } from 'next-auth/jwt'
 
 const protectedRoutes = ['/dashboard']
 const guestRoutes = ['/login', '/register']
-
-const destroySessionAndRedirect = async (req: NextRequest, redirectPath: string) => {
-  const res = NextResponse.redirect(new URL(redirectPath, req.nextUrl))
-  await destroySession(res)
-  return res
-}
 
 export async function middleware(req: NextRequest) {
   // Check if route is protected
@@ -17,25 +10,15 @@ export async function middleware(req: NextRequest) {
   const isRouteProtected = protectedRoutes.some(route => currentPath.startsWith(route))
 
   // Check if user is authenticated
-  const authTokenCookieValue = cookies().get(authTokenCookieKey)?.value || ''
-  const session = await decrypt(authTokenCookieValue)
+  const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
 
-  if (isRouteProtected) {
-    if (!session || !session?.userId) {
-      return await destroySessionAndRedirect(req, '/login')
-
-    }
-
-    // Check session expiration
-    const expires = session?.expires ? new Date(String(session.expires)).getTime() : 0
-    if (expires < new Date().getTime()) {
-      return await destroySessionAndRedirect(req, '/login')
-    }
+  if (isRouteProtected && !session) {
+    NextResponse.redirect(new URL('/login', req.nextUrl))
   }
 
   // Check if route is guest
   const isRouteGuest = guestRoutes.some(route => currentPath.startsWith(route))
-  if (isRouteGuest && session && session?.userId) {
+  if (isRouteGuest && session) {
     return NextResponse.redirect(new URL('/dashboard', req.nextUrl))
   }
 
