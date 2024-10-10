@@ -1,43 +1,60 @@
 'use client'
 
-import { useEffect } from 'react'
-import { useFormState } from 'react-dom'
-import { redirect, RedirectType } from 'next/navigation'
+import { useState } from 'react'
+import { redirect } from 'next/navigation'
+import { signIn } from 'next-auth/react'
 import toast from 'react-hot-toast'
-
-import { login } from '@/actions/auth.action'
 
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import ButtonSubmit from '@/components/button/button-submit'
-
-import { makeDefaultFormState } from '@/lib/helpers/server-actions.helper'
+import { loginSchema } from '@/lib/validations/login.validation'
 
 export default function FormLogin() {
-  const [formState, formAction] = useFormState(login, makeDefaultFormState())
+  const [validationErrors, setValidationErrors] = useState({
+    email: [],
+    password: []
+  })
 
-  useEffect(() => {
-    if (!formState.success && formState?.message) {
-      toast.error(formState?.message || '')
+  const handleLogin = async (formData: FormData) => {
+    const form = {
+      email: formData.get('email') as string,
+      password: formData.get('password') as string
     }
 
-    if (formState.success) {
-      redirect('/dashboard', RedirectType.push)
+    // Validation
+    const validationResult = loginSchema.safeParse(form)
+    if (!validationResult.success) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      setValidationErrors(validationResult.error.flatten().fieldErrors)
+    } else {
+      const result = await signIn('credentials', {
+        redirect: false,
+        email: form.email,
+        password: form.password
+      })
+
+      if (result && result.error) {
+        toast.error(result.error)
+      }
+
+      redirect('/dashboard')
     }
-  }, [formState])
+  }
 
   return (
-    <form action={formAction} method="POST">
+    <form action={handleLogin}>
       <div className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
           <Input id="email" name="email" type="email" required />
-          {formState?.errors?.email && <p className="text-sm text-red-500">{formState.errors.email}</p>}
+          {validationErrors?.email && <p className="text-sm text-red-500">{validationErrors.email}</p>}
         </div>
         <div className="space-y-2">
           <Label htmlFor="password">Password</Label>
           <Input id="password" name="password" type="password" required />
-          {formState?.errors?.password && <p className="text-sm text-red-500">{formState.errors.password}</p>}
+          {validationErrors?.password && <p className="text-sm text-red-500">{validationErrors.password}</p>}
         </div>
       </div>
 
