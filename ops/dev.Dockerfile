@@ -18,4 +18,4 @@ COPY . .
 EXPOSE 3000
 
 # Start the application using bun dev
-CMD ["bun", "dev"]
+CMD ["bun", "run", "dev"]

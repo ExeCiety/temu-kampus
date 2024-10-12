@@ -1,40 +1,45 @@
 import { z, ZodType } from 'zod'
 import type { RegisterRequest } from '@/types/auth/register.type'
+import { userRoles } from '@/lib/helpers/user-role.helper'
 
 export const RegisterSchema: ZodType<RegisterRequest> = z.object({
   name: z
     .string({
-      required_error: 'Name is required'
+      required_error: 'Nama harus diisi'
     })
     .min(1, {
-      message: 'Name is required'
+      message: 'Nama harus diisi'
     }),
   email: z
     .string({
-      required_error: 'Email is required'
+      required_error: 'Email harus diisi'
     })
     .min(1, {
-      message: 'Email is required'
+      message: 'Email harus diisi'
     })
     .email({
-      message: 'Invalid email address'
+      message: 'Format email tidak valid'
     }),
+  role: z.enum([userRoles.lecturers.value, userRoles.students.value], {
+    required_error: 'Peran harus dipilih',
+    message: `Peran harus ${userRoles.lecturers.label} atau ${userRoles.students.label}`
+  }),
   password: z
     .string({
-      required_error: 'Password is required'
+      required_error: 'Kata sandi harus diisi'
     })
     .min(8, {
-      message: 'Password must be at least 8 characters long'
+      message: 'Kata sandi minimal harus 8 karakter'
     }),
   passwordConfirmation: z
     .string({
-      required_error: 'Password confirmation is required'
+      required_error: 'Konfirmasi kata sandi harus diisi'
     })
     .min(8, {
-      message: 'Password confirmation must be at least 8 characters long'
+      message: 'Konfirmasi kata sandi minimal harus 8 karakter'
     })
 }).refine(data => data.password === data.passwordConfirmation, {
-  message: 'Passwords do not match',
+  message: 'Kata sandi dan konfirmasi kata sandi tidak cocok',
   path: ['passwordConfirmation']
 })
 

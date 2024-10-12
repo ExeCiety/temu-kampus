@@ -1,21 +1,21 @@
-import styles from '@/components/layout/not-found/not-found.module.css'
+import styles from '@/components/layout/not-found/not-found-layout.module.css'
 import { Button } from '@/components/ui/button'
 import H1 from '@/components/ui/h1'
 import Link from 'next/link'
 
-type NotFoundProps = {
+type NotFoundLayoutProps = {
   title: string
   description: string
   buttonTitle?: string
   buttonHref?: string
 }
 
-export const NotFound = ({
+export const NotFoundLayout = ({
   title,
   description,
-  buttonTitle = 'Go back home',
+  buttonTitle = 'Kembali ke Beranda',
   buttonHref = '/'
-}: NotFoundProps) => {
+}: NotFoundLayoutProps) => {
   return (
     <main className={styles.fullScreenCenter}>
       <H1>{title}</H1>

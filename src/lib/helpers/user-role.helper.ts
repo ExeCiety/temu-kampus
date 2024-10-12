@@ -12,3 +12,5 @@ export const userRoles = {
     value: 'student'
   }
 }
+
+export const userRolesArray = Object.values(userRoles)

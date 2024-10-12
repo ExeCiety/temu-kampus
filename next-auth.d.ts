@@ -1,5 +1,5 @@
 import 'next-auth'
-import '@auth/core/jwt'
+import '@(auth)/core/jwt'
 
 import { User as ModelUser } from '@prisma/client'
 
