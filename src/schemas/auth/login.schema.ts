@@ -4,20 +4,20 @@ import type { LoginRequest } from '@/types/auth/login.type'
 export const LoginSchema: ZodType<LoginRequest> = z.object({
   email: z
     .string({
-      required_error: 'Email is required'
+      required_error: 'Email harus diisi'
     })
     .min(1, {
-      message: 'Email is required'
+      message: 'Email harus diisi'
     })
     .email({
-      message: 'Invalid email address'
+      message: 'Format email tidak valid'
     }),
   password: z
     .string({
-      required_error: 'Password is required'
+      required_error: 'Kata sandi harus diisi'
     })
     .min(1, {
-      message: 'Password is required'
+      message: 'Kata sandi harus diisi'
     })
 })
 

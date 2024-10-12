@@ -3,11 +3,11 @@ import type { ForgotPasswordRequest } from '@/types/auth/forgot-password.type'
 
 export const ForgotPasswordSchema: ZodType<ForgotPasswordRequest> = z.object({
   email: z.string({
-    required_error: 'Email is required'
+    required_error: 'Email harus diisi'
   }).min(1, {
-    message: 'Email is required'
+    message: 'Email harus diisi'
   }).email({
-    message: 'Email is invalid'
+    message: 'Format email tidak valid'
   })
 })
 

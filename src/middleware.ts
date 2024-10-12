@@ -1,29 +1,29 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { getToken } from 'next-auth/jwt'
+import { NextResponse } from 'next/server'
 
-const protectedRoutes = ['/dashboard']
-const guestRoutes = ['/login', '/register']
+import { auth } from '@/lib/auth'
 
-export async function middleware(req: NextRequest) {
+import { DEFAULT_LOGIN_REDIRECT, guestRoutes, LOGIN_PAGE, protectedRoutes } from '@/lib/helpers/auth.helper'
+
+export default auth((req) => {
   // Check if route is protected
   const currentPath = req.nextUrl.pathname
   const isRouteProtected = protectedRoutes.some(route => currentPath.startsWith(route))
 
   // Check if user is authenticated
-  const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+  const isAuthenticated = !!req.auth
 
-  if (isRouteProtected && !session) {
-    NextResponse.redirect(new URL('/login', req.nextUrl))
+  if (isRouteProtected && !isAuthenticated) {
+    return NextResponse.redirect(new URL(LOGIN_PAGE, req.nextUrl))
   }
 
   // Check if route is guest
   const isRouteGuest = guestRoutes.some(route => currentPath.startsWith(route))
-  if (isRouteGuest && session) {
-    return NextResponse.redirect(new URL('/dashboard', req.nextUrl))
+  if (isRouteGuest && isAuthenticated) {
+    return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, req.nextUrl))
   }
 
   return NextResponse.next()
-}
+})
 
 // Routes middleware should *not* run on
 export const config = {

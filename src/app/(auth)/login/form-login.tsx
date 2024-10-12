@@ -1,23 +1,29 @@
 'use client'
 
-import styles from '@/app/auth/styles.module.css'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
+import { useTransition } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { ReloadIcon } from '@radix-ui/react-icons'
+
+import styles from '@/app/(auth)/styles.module.css'
 import { LoginSchema, LoginValues } from '@/schemas/auth/login.schema'
+
 import { Input } from '@/components/ui/input'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { InputPassword } from '@/components/ui/input-password'
 import { Button } from '@/components/ui/button'
 
+import { login } from '@/actions/auth.action'
+
+import { DEFAULT_LOGIN_REDIRECT } from '@/lib/helpers/auth.helper'
+import toast from 'react-hot-toast'
+
 const FormLogin = () => {
+  const router = useRouter()
+  const [isPending, startTransition] = useTransition()
+
   const form = useForm<LoginValues>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -27,12 +33,17 @@ const FormLogin = () => {
   })
 
   const onSubmit = async (data: LoginValues) => {
-    try {
-      // TODO: Implement user login
-      console.log('Logging in: ', data)
-    } catch (error) {
-      console.error('Error logging in: ', error)
-    }
+    startTransition(async () => {
+      const { success, message } = await login(data)
+
+      if (success) {
+        toast.success(message)
+        router.push(DEFAULT_LOGIN_REDIRECT)
+        return
+      }
+
+      toast.error(message)
+    })
   }
 
   return (
@@ -51,8 +62,9 @@ const FormLogin = () => {
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
+                      disabled={isPending}
                       type="email"
-                      placeholder="john_doe@example.com"
+                      placeholder="email_anda@example.com"
                       {...field}
                     />
                   </FormControl>
@@ -65,9 +77,12 @@ const FormLogin = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Kata Sandi</FormLabel>
                   <FormControl>
-                    <InputPassword placeholder="********" {...field} />
+                    <InputPassword
+                      disabled={isPending}
+                      placeholder="********" {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -77,13 +92,20 @@ const FormLogin = () => {
           <div className={styles.formForgotPassword}>
             <Link
               className={styles.formForgotPasswordText}
-              href="/auth/forgot-password"
+              href="/forgot-password"
             >
-              Forgot Password?
+              Lupa Kata Sandi?
             </Link>
           </div>
-          <Button type="submit" className={styles.formButton}>
-            Login
+          <Button
+            disabled={isPending}
+            type="submit"
+            className={styles.formButton}
+          >
+            {isPending && (
+              <ReloadIcon className={styles.formButtonLoading} />
+            )}
+            Masuk
           </Button>
         </form>
       </Form>

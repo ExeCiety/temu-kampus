@@ -1,21 +1,11 @@
 'use client'
 
-import styles from '@/app/auth/styles.module.css'
+import styles from '@/app/(auth)/styles.module.css'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import {
-  ForgotPasswordSchema,
-  ForgotPasswordValues
-} from '@/schemas/auth/forgot-password.schema'
+import { ForgotPasswordSchema, ForgotPasswordValues } from '@/schemas/auth/forgot-password.schema'
 import { Input } from '@/components/ui/input'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
 
 export const FormForgotPassword = () => {
@@ -31,7 +21,7 @@ export const FormForgotPassword = () => {
       // TODO: Implement forgot password email
       console.log('Sending forgot password email: ', data)
     } catch (error) {
-      console.error('Error sending forgot password email: ', error)
+      console.error('ErrorLayout sending forgot password email: ', error)
     }
   }
 

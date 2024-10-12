@@ -1,10 +1,11 @@
 import * as React from 'react'
 
 import { Input } from '@/components/ui/input'
-import { HiEye, HiEyeOff } from 'react-icons/hi'
+import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons'
 
 export interface InputPasswordProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {}
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+}
 
 const InputPassword = React.forwardRef<HTMLInputElement, InputPasswordProps>(
   ({ className, ...props }, ref) => {
@@ -17,12 +18,12 @@ const InputPassword = React.forwardRef<HTMLInputElement, InputPasswordProps>(
         ref={ref}
         suffix={
           showPassword ? (
-            <HiEyeOff
+            <EyeClosedIcon
               onClick={() => setShowPassword(prev => !prev)}
               className="select-none"
             />
           ) : (
-            <HiEye
+            <EyeOpenIcon
               onClick={() => setShowPassword(prev => !prev)}
               className="select-none"
             />

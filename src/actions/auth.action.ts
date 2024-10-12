@@ -3,58 +3,105 @@
 import bcrypt from 'bcryptjs'
 
 import { prisma } from '@/lib/prisma'
-import { makeDefaultFormState } from '@/lib/helpers/server-actions.helper'
-import { registerSchema } from '@/lib/validations/register.validation'
-import { defaultSaltRounds } from '@/lib/helpers/bcryptjs.helper'
+import { validate } from '@/lib/validation'
+import { signIn, signOut } from '@/lib/auth'
 
-export const register = async (
-  _prevState: unknown, formData: FormData
-) => {
+import { LoginSchema, LoginValues } from '@/schemas/auth/login.schema'
+import { RegisterSchema, type RegisterValues } from '@/schemas/auth/register.schema'
+
+import { createResponse } from '@/lib/helpers/response.helper'
+import { defaultSaltRounds } from '@/lib/helpers/bcryptjs.helper'
+import { LOGIN_PAGE } from '@/lib/helpers/auth.helper'
+import { isRedirectError } from 'next/dist/client/components/redirect'
+import { CallbackRouteError } from '@auth/core/errors'
+
+export const login = async (data: LoginValues) => {
   try {
-    const form = {
-      name: formData.get('name') as string,
-      email: formData.get('email') as string,
-      password: formData.get('password') as string,
-      confirmPassword: formData.get('confirmPassword') as string
+    // Validate the form data
+    const { success, errors } = validate(LoginSchema, data)
+
+    if (!success)
+      return createResponse({ errors })
+
+    await signIn('credentials', {
+      email: data.email,
+      password: data.password,
+      redirect: false
+    })
+
+    return createResponse({
+      success: true,
+      message: 'Login berhasil!'
+    })
+  } catch (error) {
+    if (isRedirectError(error)) {
+      throw error
     }
 
-    // Validation
-    const validationResult = registerSchema.safeParse(form)
-    if (!validationResult.success) {
-      return makeDefaultFormState({
-        errors: validationResult.error.flatten().fieldErrors
+    if (error instanceof CallbackRouteError) {
+      if (error?.cause?.err?.message === 'Email atau kata sandi tidak valid') {
+        return createResponse({
+          message: error.cause.err.message
+        })
+      }
+
+      return createResponse({
+        success: true,
+        message: 'Login berhasil!'
       })
     }
+
+    return createResponse({
+      message: error instanceof Error ? error.message : 'Terjadi kesalahan'
+    })
+  }
+}
+
+export const register = async (data: RegisterValues) => {
+  try {
+    // Validate the form data
+    const { success, errors } = validate(RegisterSchema, data)
+
+    if (!success)
+      return createResponse({ errors })
 
     // Check if the user already exists
     const existingUser = await prisma.user.findUnique({
-      where: { email: form.email }
+      where: { email: data.email },
+      select: { id: true }
     })
-    if (existingUser) {
-      return makeDefaultFormState({
-        message: 'User already exists'
+
+    if (existingUser)
+      return createResponse({
+        message: 'Pengguna sudah terdaftar'
       })
-    }
 
     // Hash the password using bcrypt
-    const hashedPassword = await bcrypt.hash(form.password, defaultSaltRounds)
+    const hashedPassword = await bcrypt.hash(data.password, defaultSaltRounds)
 
     // Create a new user with the hashed password
     await prisma.user.create({
       data: {
-        name: form.name,
-        email: form.email,
-        password: hashedPassword
-      }
+        name: data.name,
+        email: data.email,
+        password: hashedPassword,
+        role: data.role
+      } satisfies Omit<RegisterValues, 'passwordConfirmation'>
     })
 
-    return makeDefaultFormState({
+    return createResponse({
       success: true,
-      message: 'Registration successful!'
+      message: 'Pendaftaran berhasil!'
     })
-  } catch (err) {
-    return makeDefaultFormState({
-      message: err instanceof Error ? err.message : 'An error occurred'
+  } catch (error) {
+    return createResponse({
+      message: error instanceof Error ? error.message : 'Terjadi kesalahan'
     })
   }
+}
+
+export async function logout() {
+  await signOut({
+    redirectTo: LOGIN_PAGE
+  })
 }

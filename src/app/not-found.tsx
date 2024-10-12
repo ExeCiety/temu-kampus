@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { NotFound as NotFoundScreen } from '@/components/layout/not-found/not-found'
+import { NotFoundLayout as NotFoundScreen } from '@/components/layout/not-found/not-found-layout'
 
 export const metadata: Metadata = {
   title: 'Not Found'
@@ -8,8 +8,8 @@ export const metadata: Metadata = {
 const NotFound = () => {
   return (
     <NotFoundScreen
-      title="Not Found"
-      description="Sorry, the page you are looking for does not exist."
+      title="Halaman Tidak Ditemukan"
+      description="Maaf, halaman yang Anda cari tidak tersedia."
     />
   )
 }
