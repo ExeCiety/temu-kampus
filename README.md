@@ -33,10 +33,11 @@ efficiently.
 
 ## Technologies Used
 
-- **Framework:** Next.js
+- **Framework:** Next.js V14
 - **Package Manager:** Bun
 - **Programming Language:** TypeScript
 - **Database:** MongoDB
+- **Authentication:** NextAuth V5
 
 ## Installation
 
@@ -74,10 +75,6 @@ Seed the database:
 ```bash
 bun run prisma:seed
 ```
-
-## API Documentation
-
-https://documenter.getpostman.com/view/7865721/2sAXxMhE3C
 
 ## License
 
