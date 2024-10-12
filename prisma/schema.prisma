@@ -22,6 +22,11 @@ model User {
   password String
   accounts Account[]
   sessions Session[]
+
+  createdEvents Event[]            @relation("UserEvents")
+  reviews       Review[]           @relation("UserReviews")
+  notifications Notification[]     @relation("UserNotifications")
+  participants  EventParticipant[]
 }
 
 model Account {
@@ -55,4 +60,77 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Event {
+  id            String             @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  description   String
+  date          DateTime
+  time          String
+  locationId    String?            @db.ObjectId
+  location      Location?          @relation(fields: [locationId], references: [id])
+  createdBy     String             @db.ObjectId
+  creator       User               @relation("UserEvents", fields: [createdBy], references: [id])
+  participants  EventParticipant[]
+  reviews       Review[]
+  resources     EventResource[]
+  notifications Notification[]
+}
+
+model Review {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation("UserReviews", fields: [userId], references: [id])
+  eventId   String   @db.ObjectId
+  event     Event    @relation(fields: [eventId], references: [id])
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now())
+}
+
+model Notification {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation("UserNotifications", fields: [userId], references: [id])
+  eventId   String?  @db.ObjectId
+  event     Event?   @relation(fields: [eventId], references: [id])
+  content   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Location {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  address  String
+  capacity Int
+  events   Event[]
+}
+
+model Resource {
+  id       String          @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  quantity Int
+  events   EventResource[]
+}
+
+model EventParticipant {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  userId  String @db.ObjectId
+  user    User   @relation(fields: [userId], references: [id])
+  eventId String @db.ObjectId
+  event   Event  @relation(fields: [eventId], references: [id])
+
+  @@unique([userId, eventId])
+}
+
+model EventResource {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  eventId    String   @db.ObjectId
+  event      Event    @relation(fields: [eventId], references: [id])
+  resourceId String   @db.ObjectId
+  resource   Resource @relation(fields: [resourceId], references: [id])
+
+  @@unique([eventId, resourceId])
 }

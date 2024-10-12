@@ -61,6 +61,20 @@ efficiently.
 
 4. Access the application at `http://localhost:3000`.
 
+## Migration and Database Seeding
+
+Migration:
+
+```bash
+bunx prisma db push
+```
+
+Seed the database:
+
+```bash
+bun run prisma:seed
+```
+
 ## API Documentation
 
 https://documenter.getpostman.com/view/7865721/2sAXxMhE3C
