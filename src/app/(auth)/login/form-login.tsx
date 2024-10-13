@@ -32,7 +32,7 @@ const FormLogin = () => {
     }
   })
 
-  const onSubmit = async (data: LoginValues) => {
+  const onSubmit = (data: LoginValues) => {
     startTransition(async () => {
       const { success, message } = await login(data)
 

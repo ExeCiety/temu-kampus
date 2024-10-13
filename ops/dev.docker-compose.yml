@@ -17,22 +17,22 @@ services:
       - ./mongodb-keyfile:/etc/mongo-keyfile/mongodb-keyfile
 
   app:
-    container_name: temu-kampus-app
+    container_name: temu-kampus-protected
     build:
       context: ../
       dockerfile: ops/dev.Dockerfile
     # restart: always
     volumes:
-      - ../:/app
+      - ../:/protected
     ports:
       - ${APP_PORT}:3000
     networks:
       temu-app-network:
         ipv4_address: 192.168.11.3
-        
+
 networks:
   temu-app-network:
-    name: temu-app-network
+    name: temu-protected-network
     driver: bridge
     ipam:
       config:

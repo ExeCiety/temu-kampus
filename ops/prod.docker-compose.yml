@@ -1,12 +1,12 @@
 services:
   app:
-    container_name: temu-kampus-app
+    container_name: temu-kampus-protected
     build:
       context: ../
       dockerfile: ops/prod.Dockerfile
     # restart: always
     volumes:
-      - ../:/app
+      - ../:/protected
     ports:
       - ${APP_PORT}:3000
     networks:
@@ -28,7 +28,7 @@ services:
 
 networks:
   temu-app-network:
-    name: temu-app-network
+    name: temu-protected-network
     driver: bridge
     ipam:
       config:

@@ -20,9 +20,11 @@ export const NotFoundLayout = ({
     <main className={styles.fullScreenCenter}>
       <H1>{title}</H1>
       <p>{description}</p>
-      <Button type="button" size="lg">
-        <Link href={buttonHref}>{buttonTitle}</Link>
-      </Button>
+      {buttonTitle && buttonHref && (
+        <Button type="button" size="lg">
+          <Link href={buttonHref}>{buttonTitle}</Link>
+        </Button>
+      )}
     </main>
   )
 }
