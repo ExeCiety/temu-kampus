@@ -1,3 +1,5 @@
+'use server'
+
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { validate } from '@/lib/validation'
@@ -99,6 +101,7 @@ export const getEventParticipants = async (data: GetEventParticipateValues) => {
     if (!success)
       return createResponse({ errors })
 
+    // Get the event participants
     const participants = await prisma.eventParticipant.findMany({
       where: {
         eventId: data.eventId

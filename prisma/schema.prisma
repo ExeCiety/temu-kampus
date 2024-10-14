@@ -21,17 +21,22 @@ model User {
 }
 
 model Location {
-  id      String  @id @default(auto()) @map("_id") @db.ObjectId
-  name    String
-  address String
-  events  Event[]
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  address   String
+  createdAt DateTime @default(now())
+
+  events Event[]
 }
 
 model Resource {
-  id       String          @id @default(auto()) @map("_id") @db.ObjectId
-  name     String
-  quantity Int
-  events   EventResource[]
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  quantity   Int
+  consumable Boolean
+  createdAt  DateTime @default(now())
+
+  events EventResource[]
 }
 
 model Event {
