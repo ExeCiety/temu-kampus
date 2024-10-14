@@ -1,8 +1,7 @@
-import { prisma } from '@/lib/prisma'
+import bcrypt from 'bcryptjs'
 
-const main = async () => {
-  await userAdminSeeder()
-}
+import { prisma } from '@/lib/prisma'
+import { defaultSaltRounds } from '@/lib/helpers/bcryptjs.helper'
 
 const userAdminSeeder = async () => {
   // Check if admin user already exists
@@ -11,7 +10,7 @@ const userAdminSeeder = async () => {
     where: { email }
   })
 
-  // If admin user does not exist, create it
+  // If admin user exist, dont create new admin user
   if (adminUser) {
     console.log('Admin user already exists')
     return
@@ -21,12 +20,40 @@ const userAdminSeeder = async () => {
     data: {
       name: 'Admin',
       email: email,
-      password: 'admin1234',
+      password: bcrypt.hashSync('admin1234!', defaultSaltRounds),
       role: 'admin'
     }
   })
 
   console.log('Admin user created')
+}
+
+const locationSeeder = async () => {
+  await prisma.location.create({
+    data: {
+      name: 'Universitas Widyatama',
+      address: 'Jl. Cikutra No.204A, Sukapada, Kec. Cibeunying Kidul, Kota Bandung, Jawa Barat 40125'
+    }
+  })
+
+  console.log('Locations created')
+}
+
+const resourceSeeder = async () => {
+  await prisma.resource.create({
+    data: {
+      name: 'Resource 1',
+      quantity: 10
+    }
+  })
+
+  console.log('Resources created')
+}
+
+const main = async () => {
+  await userAdminSeeder()
+  await locationSeeder()
+  await resourceSeeder()
 }
 
 main()

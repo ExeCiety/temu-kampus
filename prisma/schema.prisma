@@ -1,5 +1,5 @@
 generator client {
-  provider      = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -8,13 +8,11 @@ datasource db {
 }
 
 model User {
-  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
   name     String?
-  email    String    @unique
+  email    String  @unique
   role     String
   password String
-  accounts Account[]
-  sessions Session[]
 
   createdEvents Event[]            @relation("UserEvents")
   reviews       Review[]           @relation("UserReviews")
@@ -22,53 +20,41 @@ model User {
   participants  EventParticipant[]
 }
 
-model Account {
-  id                String  @id @default(auto()) @map("_id") @db.ObjectId
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String?
-  access_token      String?
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?
-  session_state     String?
-  userId            String  @db.ObjectId
-  user              User    @relation(fields: [userId], references: [id])
+model Location {
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  address String
+  events  Event[]
 }
 
-model Session {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  sessionToken String   @unique
-  expires      DateTime
-  userId       String   @db.ObjectId
-  user         User     @relation(fields: [userId], references: [id])
-}
-
-model VerificationToken {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  identifier String
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
+model Resource {
+  id       String          @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  quantity Int
+  events   EventResource[]
 }
 
 model Event {
-  id            String             @id @default(auto()) @map("_id") @db.ObjectId
-  title         String
-  description   String
-  date          DateTime
-  time          String
-  locationId    String?            @db.ObjectId
-  location      Location?          @relation(fields: [locationId], references: [id])
-  createdBy     String             @db.ObjectId
-  creator       User               @relation("UserEvents", fields: [createdBy], references: [id])
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  dateStart   DateTime
+  dateEnd     DateTime
+  category    String
+
+  locationId String?   @db.ObjectId
+  location   Location? @relation(fields: [locationId], references: [id])
+
+  createdBy String @db.ObjectId
+  creator   User   @relation("UserEvents", fields: [createdBy], references: [id])
+
   participants  EventParticipant[]
   reviews       Review[]
   resources     EventResource[]
   notifications Notification[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
 model Review {
@@ -93,21 +79,6 @@ model Notification {
   createdAt DateTime @default(now())
 }
 
-model Location {
-  id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  name     String
-  address  String
-  capacity Int
-  events   Event[]
-}
-
-model Resource {
-  id       String          @id @default(auto()) @map("_id") @db.ObjectId
-  name     String
-  quantity Int
-  events   EventResource[]
-}
-
 model EventParticipant {
   id      String @id @default(auto()) @map("_id") @db.ObjectId
   userId  String @db.ObjectId
@@ -124,6 +95,7 @@ model EventResource {
   event      Event    @relation(fields: [eventId], references: [id])
   resourceId String   @db.ObjectId
   resource   Resource @relation(fields: [resourceId], references: [id])
+  quantity   Int
 
   @@unique([eventId, resourceId])
 }

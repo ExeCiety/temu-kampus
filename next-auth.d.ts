@@ -9,7 +9,7 @@ declare module 'next-auth' {
   }
 
   interface Session {
-    user?: User;
+    user?: ModelUser;
   }
 
   interface JWT extends BaseUser {
