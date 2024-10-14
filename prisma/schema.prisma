@@ -33,7 +33,7 @@ model Resource {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   name       String
   quantity   Int
-  consumable Boolean
+  consumable Boolean  @default(false)
   createdAt  DateTime @default(now())
 
   events EventResource[]
@@ -48,10 +48,10 @@ model Event {
   category    String
 
   locationId String?   @db.ObjectId
-  location   Location? @relation(fields: [locationId], references: [id])
+  location   Location? @relation(fields: [locationId], references: [id], onDelete: SetNull)
 
   createdBy String @db.ObjectId
-  creator   User   @relation("UserEvents", fields: [createdBy], references: [id])
+  creator   User   @relation("UserEvents", fields: [createdBy], references: [id], onDelete: Cascade)
 
   participants  EventParticipant[]
   reviews       Review[]
@@ -65,9 +65,9 @@ model Event {
 model Review {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String   @db.ObjectId
-  user      User     @relation("UserReviews", fields: [userId], references: [id])
+  user      User     @relation("UserReviews", fields: [userId], references: [id], onDelete: Cascade)
   eventId   String   @db.ObjectId
-  event     Event    @relation(fields: [eventId], references: [id])
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
   rating    Int
   comment   String
   createdAt DateTime @default(now())
@@ -76,9 +76,9 @@ model Review {
 model Notification {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String   @db.ObjectId
-  user      User     @relation("UserNotifications", fields: [userId], references: [id])
+  user      User     @relation("UserNotifications", fields: [userId], references: [id], onDelete: Cascade)
   eventId   String?  @db.ObjectId
-  event     Event?   @relation(fields: [eventId], references: [id])
+  event     Event?   @relation(fields: [eventId], references: [id], onDelete: SetNull)
   content   String
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
@@ -87,9 +87,9 @@ model Notification {
 model EventParticipant {
   id      String @id @default(auto()) @map("_id") @db.ObjectId
   userId  String @db.ObjectId
-  user    User   @relation(fields: [userId], references: [id])
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   eventId String @db.ObjectId
-  event   Event  @relation(fields: [eventId], references: [id])
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
   @@unique([userId, eventId])
 }
@@ -97,9 +97,9 @@ model EventParticipant {
 model EventResource {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   eventId    String   @db.ObjectId
-  event      Event    @relation(fields: [eventId], references: [id])
+  event      Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
   resourceId String   @db.ObjectId
-  resource   Resource @relation(fields: [resourceId], references: [id])
+  resource   Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
   quantity   Int
 
   @@unique([eventId, resourceId])

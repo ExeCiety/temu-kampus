@@ -56,9 +56,7 @@ export const UpdateResourceSchema: ZodType<UpdateResourceRequest> = z.object({
 export const BulkDeleteResourcesSchema = z.object({
   resourceIds: z
     .array(z.string())
-    .nonempty({
-      message: 'ID peralatan harus diisi'
-    })
+    .min(1, 'ID peralatan harus diisi')
 })
 
 export type CreateResourceValues = z.infer<typeof CreateResourceSchema>
