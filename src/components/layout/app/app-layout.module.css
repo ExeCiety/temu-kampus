@@ -1,7 +1,0 @@
-.fullScreen {
-  @apply flex min-h-screen bg-white text-black;
-}
-
-.container {
-  @apply w-full p-8;
-}

@@ -1,12 +1,23 @@
 import type { ReactNode } from 'react'
-import { AppLayout as AppLayoutScreen } from '@/components/layout/app/app-layout'
 
-type AppLayoutProps = {
+import { ThemeProvider } from '@/components/providers/theme-provider'
+import AdminPanelLayout from '@/components/layout/admin-panel/admin-panel-layout'
+import { auth } from '@/lib/auth'
+
+type ProtectedLayoutProps = {
   children: ReactNode
 }
 
-const AppLayout = ({ children }: AppLayoutProps) => {
-  return <AppLayoutScreen >{children}</AppLayoutScreen>
+const ProtectedLayout = async ({ children }: ProtectedLayoutProps) => {
+  const session = await auth()
+
+  return (
+    <>
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <AdminPanelLayout role={session?.user?.role as string}>{children}</AdminPanelLayout>
+      </ThemeProvider>
+    </>
+  )
 }
 
-export default AppLayout
+export default ProtectedLayout

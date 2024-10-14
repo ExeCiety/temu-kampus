@@ -10,23 +10,23 @@ import {
 import { ContentLayout } from '@/components/layout/admin-panel/content-layout'
 
 export const metadata: Metadata = {
-  title: 'Dashboard'
+  title: 'Peralatan'
 }
 
-const DashboardPage = () => {
+const ResourcesPage = () => {
   return <>
-    <ContentLayout title="Dashboard">
+    <ContentLayout title="Peralatan">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Dashboard</BreadcrumbPage>
+            <BreadcrumbPage>Peralatan</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      {/*  Section Dashboard or others here */}
+      {/*  Section Resources or others here */}
     </ContentLayout>
   </>
 }
 
-export default DashboardPage
+export default ResourcesPage

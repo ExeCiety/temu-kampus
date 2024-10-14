@@ -1,15 +1,20 @@
 import type { Metadata } from 'next'
-import { NotFoundLayout as NotFoundScreen } from '@/components/layout/not-found/not-found-layout'
+import { NotFoundLayout } from '@/components/layout/not-found/not-found-layout'
+import { auth } from '@/lib/auth'
 
 export const metadata: Metadata = {
   title: 'Not Found'
 }
 
-const NotFound = () => {
+const NotFound = async () => {
+  const session = await auth()
+
   return (
-    <NotFoundScreen
+    <NotFoundLayout
       title="Halaman Tidak Ditemukan"
       description="Maaf, halaman yang Anda cari tidak tersedia."
+      buttonTitle="Kembali ke Beranda"
+      buttonHref={session ? '/dashboard' : '/login'}
     />
   )
 }

@@ -1,9 +1,9 @@
 'use client'
 
-import { ErrorLayout as ErrorLayoutScreen } from '@/components/layout/error/error-layout'
+import { ErrorLayout } from '@/components/layout/error/error-layout'
 
 const Error = () => {
-  return <ErrorLayoutScreen />
+  return <ErrorLayout />
 }
 
 export default Error
