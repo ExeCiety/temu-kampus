@@ -207,10 +207,10 @@ const DetailEventTab = ({ event, isHasSubmittedReview }: { event: any, isHasSubm
                   <ul>
                     {event.resources.map((er: any) => (
                       <li key={er?.resource?.id} className="mb-2">
-                        <a href={er?.resource.url} className="text-blue-600 hover:underline flex items-center">
+                        <div className="flex items-center">
                           <FileTextIcon className="mr-2 h-4 w-4" />
-                          {er?.resource?.name} ({er?.resource?.quantity} qty)
-                        </a>
+                          {er?.resource?.name} ({er?.quantity} qty)
+                        </div>
                       </li>
                     ))}
                   </ul>
