@@ -38,10 +38,6 @@ export const CreateEventSchema: ZodType<CreateEventRequest> = z.object({
     .string({
       required_error: 'Lokasi harus diisi'
     }),
-  createdBy: z
-    .string({
-      required_error: 'Dibuat oleh harus diisi'
-    }),
   resources: z
     .array(
       z.object({
@@ -107,9 +103,6 @@ export const UpdateEventSchema: ZodType<UpdateEventRequest> = z.object({
     .string()
     .optional(),
   locationId: z
-    .string()
-    .optional(),
-  createdBy: z
     .string()
     .optional(),
 

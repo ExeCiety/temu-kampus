@@ -1,3 +1,5 @@
+import { EventParticipant } from '@prisma/client'
+
 export const eventSections = {
   upcoming: {
     label: 'Yang Akan Datang',
@@ -15,4 +17,8 @@ export const eventSections = {
     label: 'Yang Diikuti',
     value: 'participated'
   }
+}
+
+export const getEventConfirmationLink = (eventParticipant: EventParticipant) => {
+  return `${process.env.APP_HOST}/confirm-event-participant?token=${eventParticipant.id}`
 }

@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import { ThemeProvider } from '@/components/providers/theme-provider'
 import AdminPanelLayout from '@/components/layout/admin-panel/admin-panel-layout'
 import { auth } from '@/lib/auth'
+import { Toaster } from 'react-hot-toast'
 
 type ProtectedLayoutProps = {
   children: ReactNode
@@ -14,6 +15,7 @@ const ProtectedLayout = async ({ children }: ProtectedLayoutProps) => {
   return (
     <>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <Toaster position="top-center" reverseOrder={false} />
         <AdminPanelLayout role={session?.user?.role as string}>{children}</AdminPanelLayout>
       </ThemeProvider>
     </>

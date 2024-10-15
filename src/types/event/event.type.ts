@@ -6,7 +6,6 @@ export type CreateEventRequest = {
   category: string
 
   locationId: string
-  createdBy: string
 
   resources: {
     resourceId: string
@@ -33,7 +32,6 @@ export type UpdateEventRequest = {
   category?: string
 
   locationId?: string
-  createdBy?: string
 
   resources?: {
     resourceId: string

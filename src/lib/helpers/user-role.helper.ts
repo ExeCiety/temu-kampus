@@ -14,3 +14,8 @@ export const userRoles = {
 }
 
 export const userRolesArray = Object.values(userRoles)
+
+export const getUserRoleLabelFromValue = (value: string) => {
+  const role = userRolesArray.find((role) => role.value === value)
+  return role?.label || ''
+}

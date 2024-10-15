@@ -85,11 +85,14 @@ model Notification {
 }
 
 model EventParticipant {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
-  userId  String @db.ObjectId
-  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  eventId String @db.ObjectId
-  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  eventId   String   @db.ObjectId
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 
   @@unique([userId, eventId])
 }

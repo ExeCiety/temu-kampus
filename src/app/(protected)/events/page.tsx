@@ -8,6 +8,8 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from '@/components/ui/breadcrumb'
+import ListEventBySection from '@/app/(protected)/events/list-event-by-section'
+import ButtonGoToAddEventPage from '@/app/(protected)/events/button-go-to-add-event-page'
 
 export const metadata: Metadata = {
   title: 'Acara'
@@ -25,7 +27,15 @@ const EventsPage = () => {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        {/*  Section Events or others here */}
+
+        <div className={'container mx-auto px-4 py-8'}>
+          <div className={'flex justify-between'}>
+            <h1 className="text-3xl font-bold mb-6">Daftar Acara</h1>
+            <ButtonGoToAddEventPage />
+          </div>
+          
+          <ListEventBySection />
+        </div>
       </ContentLayout>
     </>
   )

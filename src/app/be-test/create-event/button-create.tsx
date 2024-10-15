@@ -17,7 +17,6 @@ export const ButtonCreateEvent = ({ userId }: { userId: string }) => {
       dateEnd: '2024-10-12 18:00:00',
       category: 'Category 1',
       locationId: Array.isArray(locationResponse.data) && locationResponse.data.length > 0 ? locationResponse.data[0].id : '',
-      createdBy: userId,
 
       resources: Array.isArray(resourceResponse.data) ? [
         {

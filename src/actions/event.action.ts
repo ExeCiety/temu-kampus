@@ -3,6 +3,9 @@
 import { Event } from '@prisma/client'
 import { validate } from '@/lib/validation'
 
+import { auth } from '@/lib/auth'
+import { prisma } from '@/lib/prisma'
+
 import {
   BulkDeleteEventSchema,
   BulkDeleteEventValues,
@@ -15,13 +18,11 @@ import {
   UpdateEventValues
 } from '@/schemas/event/event.schema'
 
-import { auth } from '@/lib/auth'
-import { prisma } from '@/lib/prisma'
-
 import { createResponse } from '@/lib/helpers/response.helper'
 import { convertDateStringToUTC, defaultDateFormat } from '@/lib/helpers/date.helper'
 import { eventSections } from '@/lib/helpers/event.helper'
 import { filterNonNullValues } from '@/lib/helpers/object.helper'
+import { userRoles } from '@/lib/helpers/user-role.helper'
 
 export const createEvent = async (data: CreateEventValues) => {
   try {
@@ -40,13 +41,16 @@ export const createEvent = async (data: CreateEventValues) => {
     if (!success)
       return createResponse({ errors })
 
+    const dateStartIso = convertDateStringToUTC(data.dateStart, defaultDateFormat)
+    const dateEndIso = convertDateStringToUTC(data.dateEnd, defaultDateFormat)
+
     const overlappingEvents = await prisma.event.findMany({
       where: {
         locationId: data.locationId,
         OR: [
           {
-            dateStart: { lte: data.dateEnd },
-            dateEnd: { gte: data.dateStart }
+            dateStart: { lte: dateStartIso },
+            dateEnd: { gte: dateEndIso }
           }
         ]
       }
@@ -231,6 +235,21 @@ export const getEventDetail = async (data: GetEventDetailValues) => {
             name: true,
             email: true
           }
+        },
+        resources: {
+          include: {
+            resource: true
+          }
+        },
+        participants: {
+          include: {
+            user: true
+          }
+        },
+        reviews: {
+          include: {
+            user: true
+          }
         }
       }
     })
@@ -257,9 +276,27 @@ export const getEventDetail = async (data: GetEventDetailValues) => {
 
 export const updateEvent = async (data: UpdateEventValues) => {
   try {
+    // Check if the user is not logged in
+    const session = await auth()
+    if (!session || (session && !session.user)) {
+      return createResponse({
+        message: 'Anda tidak memiliki akses'
+      })
+    }
+
+    const userLoggedIn = session.user
+
+    // Validate the form data
+    const { success, errors } = validate(UpdateEventSchema, data)
+
+    if (!success)
+      return createResponse({ errors })
+
     // Check if the event exists
     const existingEvent = await prisma.event.findUnique({
-      where: { id: data.eventId }
+      where: {
+        id: data.eventId
+      }
     })
 
     if (!existingEvent) {
@@ -268,11 +305,12 @@ export const updateEvent = async (data: UpdateEventValues) => {
       })
     }
 
-    // Validate the form data
-    const { success, errors } = validate(UpdateEventSchema, data)
-
-    if (!success)
-      return createResponse({ errors })
+    // Check if the user is the creator of the event
+    if (userLoggedIn?.role !== userRoles.admin.value && existingEvent.createdBy !== userLoggedIn?.id) {
+      return createResponse({
+        message: 'Anda tidak memiliki akses untuk mengubah acara ini'
+      })
+    }
 
     if (data.locationId && data.locationId !== existingEvent.locationId && data.dateStart && data.dateEnd) {
       const overlappingEvents = await prisma.event.findMany({
@@ -410,46 +448,71 @@ export const updateEvent = async (data: UpdateEventValues) => {
 
 export const bulkDeleteEvents = async (data: BulkDeleteEventValues) => {
   try {
+    // Check if the user is not logged in
+    const session = await auth()
+    if (!session || (session && !session.user)) {
+      return createResponse({
+        message: 'Anda tidak memiliki akses'
+      })
+    }
+
+    const userLoggedIn = session.user
+
     // Validate the form data
     const { success, errors } = validate(BulkDeleteEventSchema, data)
 
     if (!success)
       return createResponse({ errors })
 
+    const deleteWherePayload = {
+      id: { in: data.eventIds }
+    }
+
+    if (userLoggedIn?.role !== userRoles.admin.value) {
+      Object.assign(deleteWherePayload, {
+        createdBy: userLoggedIn?.id
+      })
+    }
+
+    // Find the events to delete
+    const eventsToDelete = await prisma.event.findMany({
+      where: deleteWherePayload
+    })
+
+    // Check if all events exist
+    if (eventsToDelete.length !== data.eventIds.length) {
+      return createResponse({
+        message: 'Beberapa semua acara ditemukan atau Anda tidak memiliki akses untuk menghapusnya'
+      })
+    }
+
     await prisma.$transaction(async (tx) => {
+      const deleteEventIds = eventsToDelete.map((event) => event.id)
+
       // Delete related EventResource entries for these events
       await tx.eventResource.deleteMany({
         where: {
-          eventId: { in: data.eventIds }
+          eventId: { in: deleteEventIds }
         }
       })
 
       // Delete related participants
       await tx.eventParticipant.deleteMany({
         where: {
-          eventId: { in: data.eventIds }
+          eventId: { in: deleteEventIds }
         }
       })
 
       // Delete related reviews
       await tx.review.deleteMany({
         where: {
-          eventId: { in: data.eventIds }
-        }
-      })
-
-      // Delete related notifications
-      await tx.notification.deleteMany({
-        where: {
-          eventId: { in: data.eventIds }
+          eventId: { in: deleteEventIds }
         }
       })
 
       // Delete the events themselves
       await tx.event.deleteMany({
-        where: {
-          id: { in: data.eventIds }
-        }
+        where: deleteWherePayload
       })
     })
 
