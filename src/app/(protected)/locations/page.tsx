@@ -1,30 +1,46 @@
 import type { Metadata } from 'next'
 
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator
-} from '@/components/ui/breadcrumb'
-import { ContentLayout } from '@/components/layout/admin-panel/content-layout'
+import type { BreadcrumbItemType } from '@/types/layout/admin-panel/content-layout/breadcrumb'
+import type { Location } from '@/types/event/location.type'
+
+import { ContentLayout } from '@/components/layout/admin-panel/content-layout/content-layout'
+import { ContentLayoutBreadcrumb } from '@/components/layout/admin-panel/content-layout/content-layout-breadcrumb'
+import { SectionLayout } from '@/components/layout/admin-panel/section-layout/section-layout'
+import { SectionLayoutHeader } from '@/components/layout/admin-panel/section-layout/section-layout-header'
+import { DataTable } from '@/components/ui/data-table/data-table'
+
+import { columns } from '@/app/(protected)/locations/(table)/columns'
+
+import { getLocations } from '@/actions/location.action'
 
 export const metadata: Metadata = {
   title: 'Lokasi'
 }
 
-const LocationsPage = () => {
+const getData = async (): Promise<Location[]> => {
+  const response = await getLocations()
+  return response.data! as Location[]
+}
+
+const LocationsPage = async () => {
+  const locations = await getData()
+
+  const breadcrumbItems = [
+    { label: 'Lokasi', isCurrent: true }
+  ] as BreadcrumbItemType[]
+
   return <>
     <ContentLayout title="Lokasi">
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>Lokasi</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-      {/*  Section Locations or others here */}
+      <ContentLayoutBreadcrumb breadcrumbItems={breadcrumbItems} />
+      <SectionLayout>
+        <SectionLayoutHeader
+          title={`Lokasi (${locations.length})`}
+          subtitle="Managemen Lokasi Acara"
+          buttonAddLabel="Tambah Lokoasi"
+          buttonAddHref="/locations/create"
+        />
+        <DataTable columns={columns} data={locations} />
+      </SectionLayout>
     </ContentLayout>
   </>
 }

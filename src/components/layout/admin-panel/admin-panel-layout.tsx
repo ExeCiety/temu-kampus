@@ -6,8 +6,8 @@ import { useSidebar } from '@/hooks/use-sidebar'
 import { useStore } from '@/hooks/use-store'
 
 import { cn } from '@/lib/utils'
-import { Sidebar } from '@/components/admin-panel/sidebar/sidebar'
-import { Footer } from '@/components/admin-panel/footer/footer'
+import { Sidebar } from '@/components/admin-panel/partial/sidebar/sidebar'
+import { Footer } from '@/components/admin-panel/partial/footer/footer'
 
 type AdminPanelLayoutProps = {
   role: string

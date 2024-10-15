@@ -16,7 +16,6 @@ import {
   UpdateLocationSchema,
   UpdateLocationValues
 } from '@/schemas/event/location.schema'
-import { filterNonNullValues } from '@/lib/helpers/object.helper'
 
 export const createLocation = async (data: CreateLocationValues) => {
   try {
@@ -27,14 +26,14 @@ export const createLocation = async (data: CreateLocationValues) => {
       return createResponse({ errors })
 
     // Create the location
-    await prisma.$transaction(async (tx) => {
-      await tx.location.create({
+    await prisma.$transaction([
+      prisma.location.create({
         data: {
           name: data.name,
           address: data.address
         }
       })
-    })
+    ])
 
     return createResponse({
       success: true,
@@ -122,17 +121,17 @@ export const updateLocation = async (data: UpdateLocationValues) => {
     }
 
     // Update the location
-    await prisma.$transaction(async (tx) => {
-      await tx.location.update({
+    await prisma.$transaction([
+      prisma.location.update({
         where: {
           id: data.locationId
         },
-        data: filterNonNullValues({
-          name: data.name || null,
-          address: data.address || null
-        })
+        data: {
+          name: data.name,
+          address: data.address
+        }
       })
-    })
+    ])
 
     return createResponse({
       success: true,
@@ -156,15 +155,15 @@ export const bulkDeleteLocations = async (data: BulkDeleteLocationsValues) => {
       return createResponse({ errors })
 
     // Delete the locations
-    await prisma.$transaction(async (tx) => {
-      await tx.location.deleteMany({
+    await prisma.$transaction([
+      prisma.location.deleteMany({
         where: {
           id: {
             in: data.locationIds
           }
         }
       })
-    })
+    ])
 
     return createResponse({
       success: true,
@@ -178,5 +177,3 @@ export const bulkDeleteLocations = async (data: BulkDeleteLocationsValues) => {
     await prisma.$disconnect()
   }
 }
-
-

@@ -7,7 +7,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from '@/components/ui/breadcrumb'
-import { ContentLayout } from '@/components/layout/admin-panel/content-layout'
+import { ContentLayout } from '@/components/layout/admin-panel/content-layout/content-layout'
 
 export const metadata: Metadata = {
   title: 'Dashboard'

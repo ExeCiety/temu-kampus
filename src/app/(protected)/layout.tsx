@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react'
+import { Toaster } from 'react-hot-toast'
 
 import { ThemeProvider } from '@/components/providers/theme-provider'
 import AdminPanelLayout from '@/components/layout/admin-panel/admin-panel-layout'
 import { auth } from '@/lib/auth'
-import { Toaster } from 'react-hot-toast'
 
 type ProtectedLayoutProps = {
   children: ReactNode

@@ -1,3 +1,9 @@
+export type Location = {
+  id: string
+  name: string
+  address: string
+}
+
 export type CreateLocationRequest = {
   name: string
   address: string

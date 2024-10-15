@@ -11,6 +11,9 @@ import styles from '@/app/(auth)/styles.module.css'
 
 import { RegisterSchema, RegisterValues } from '@/schemas/auth/register.schema'
 
+import { LOGIN_PAGE } from '@/lib/helpers/auth.helper'
+import { userRolesArray } from '@/lib/helpers/user-role.helper'
+
 import { Input } from '@/components/ui/input'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { InputPassword } from '@/components/ui/input-password'
@@ -19,8 +22,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 
 import { register } from '@/actions/auth.action'
 
-import { LOGIN_PAGE } from '@/lib/helpers/auth.helper'
-import { userRolesArray } from '@/lib/helpers/user-role.helper'
 
 export const FormRegister = () => {
   const router = useRouter()

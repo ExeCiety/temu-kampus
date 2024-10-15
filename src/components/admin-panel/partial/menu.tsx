@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils'
 import { menuGroups, menuGroupsAdmin } from '@/constants/layout/sidebar/menu'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { CollapseMenuButton } from '@/components/admin-panel/sidebar/collapse-menu-button'
+import { CollapseMenuButton } from '@/components/admin-panel/partial/sidebar/collapse-menu-button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 interface MenuProps {

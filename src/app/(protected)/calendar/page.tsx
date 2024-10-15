@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import { ContentLayout } from '@/components/layout/admin-panel/content-layout'
+import { ContentLayout } from '@/components/layout/admin-panel/content-layout/content-layout'
 import {
   Breadcrumb,
   BreadcrumbItem,

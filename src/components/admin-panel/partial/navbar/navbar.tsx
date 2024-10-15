@@ -1,8 +1,10 @@
+'use client'
+
 import type { User } from '@prisma/client'
 
 import { ModeToggle } from '@/components/mode-toggle'
-import { UserNav } from '@/components/admin-panel/navbar/user-nav'
-import { SheetMenu } from '@/components/admin-panel/navbar/sheet-menu'
+import { UserNav } from '@/components/admin-panel/partial/navbar/user-nav'
+import { SheetMenu } from '@/components/admin-panel/partial/navbar/sheet-menu'
 
 type NavbarProps = {
   title: string

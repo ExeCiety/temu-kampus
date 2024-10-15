@@ -16,7 +16,6 @@ import {
 } from '@/schemas/event/resource.schema'
 import { validate } from '@/lib/validation'
 import { prisma } from '@/lib/prisma'
-import { filterNonNullValues } from '@/lib/helpers/object.helper'
 
 export const createResource = async (data: CreateResourceValues) => {
   try {
@@ -162,11 +161,11 @@ export const updateResource = async (data: UpdateResourceValues) => {
         where: {
           id: data.resourceId
         },
-        data: filterNonNullValues({
-          name: data.name || null,
-          quantity: data.quantity || null,
-          consumable: data.consumable === undefined ? null : data.consumable
-        })
+        data: {
+          name: data.name,
+          quantity: data.quantity,
+          consumable: data.consumable
+        }
       })
     })
 

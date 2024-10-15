@@ -11,10 +11,14 @@ export const CreateLocationSchema: ZodType<CreateLocationRequest> = z.object({
   name: z
     .string({
       required_error: 'Nama lokasi harus diisi'
+    }).min(1, {
+      message: 'Nama lokasi harus diisi'
     }),
   address: z
     .string({
       required_error: 'Alamat lokasi harus diisi'
+    }).min(1, {
+      message: 'Alamat lokasi harus diisi'
     })
 })
 

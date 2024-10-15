@@ -1,3 +1,10 @@
+export type Resource = {
+  id: string
+  name: string
+  quantity: number
+  consumable: boolean
+}
+
 export type CreateResourceRequest = {
   name: string
   quantity: number
@@ -14,10 +21,7 @@ export type GetResourceDetailRequest = {
 
 export type UpdateResourceRequest = {
   resourceId: string
-  name?: string
-  quantity?: number
-  consumable?: boolean
-}
+} & CreateResourceRequest
 
 export type BulkDeleteResourcesRequest = {
   resourceIds: string[]

@@ -20,7 +20,7 @@ import { login } from '@/actions/auth.action'
 import { DEFAULT_LOGIN_REDIRECT } from '@/lib/helpers/auth.helper'
 import toast from 'react-hot-toast'
 
-const FormLogin = () => {
+export const FormLogin = () => {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
 
@@ -112,5 +112,3 @@ const FormLogin = () => {
     </>
   )
 }
-
-export default FormLogin

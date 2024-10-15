@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { AuthIllustration } from '@/components/auth/illustration/auth-illustration'
 import { CardWrapper } from '@/components/auth/form/card-wrapper/card-wrapper'
-import FormLogin from '@/app/(auth)/login/form-login'
+import { FormLogin } from '@/app/(auth)/login/form-login'
 
 export const metadata: Metadata = {
   title: 'Sign In'

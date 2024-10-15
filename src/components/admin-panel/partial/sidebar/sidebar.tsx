@@ -6,8 +6,8 @@ import { useSidebar } from '@/hooks/use-sidebar'
 import { useStore } from '@/hooks/use-store'
 
 import { cn } from '@/lib/utils'
-import { Menu } from '@/components/admin-panel/menu'
-import { SidebarToggle } from '@/components/admin-panel/sidebar/sidebar-toggle'
+import { Menu } from '@/components/admin-panel/partial/menu'
+import { SidebarToggle } from '@/components/admin-panel/partial/sidebar/sidebar-toggle'
 import { Button } from '@/components/ui/button'
 
 type SidebarProps = {

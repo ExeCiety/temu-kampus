@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
-
+import NextTopLoader from 'nextjs-toploader'
 import './globals.css'
 
 const poppins = Poppins({
@@ -27,6 +27,7 @@ const RootLayout = ({
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body className={poppins.className}>
+        <NextTopLoader showSpinner={false} />
         {children}
       </body>
     </html>

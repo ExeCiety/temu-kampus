@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { MenuIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { Menu } from '@/components/admin-panel/menu'
+import { Menu } from '@/components/admin-panel/partial/menu'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 
 type SheetMenuProps = {

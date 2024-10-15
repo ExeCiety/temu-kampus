@@ -3,7 +3,7 @@ import type { Session } from 'next-auth'
 import type { User } from '@prisma/client'
 
 import { auth } from '@/lib/auth'
-import { Navbar } from '@/components/admin-panel/navbar/navbar'
+import { Navbar } from '@/components/admin-panel/partial/navbar/navbar'
 
 type ContentLayoutProps = {
   title: string;
@@ -16,7 +16,7 @@ export const ContentLayout = async ({ title, children }: ContentLayoutProps) => 
   return (
     <>
       <Navbar title={title} user={session.user as User} />
-      <div className="container pt-8 pb-8 px-4 sm:px-8">{children}</div>
+      <div className="pt-8 pb-8 px-4 sm:px-8">{children}</div>
     </>
   )
 }
