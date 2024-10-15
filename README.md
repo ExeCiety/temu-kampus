@@ -5,30 +5,36 @@ application offers features such as user registration, event creation, participa
 post-event feedback. With Temu Kampus, all event management processes can be carried out digitally, effectively, and
 efficiently.
 
+## Demo
+
+```
+https://temu-kampus.vercel.app/
+```
+
 ## Key Features
 
-- **User Registration and Login** - 🚧 **In Progress**
+- **User Registration and Login**
     - Users (students, lecturers, admins) can register and log in to the system with appropriate access rights.
 
-- **Event Creation and Management** - ❌ **Not Started**
+- **Event Creation and Management**
     - Users can create events, set the date, time, location, and provide detailed event descriptions.
 
-- **Participant Registration** - ❌ **Not Started**
+- **Participant Registration**
     - Students and lecturers can register to attend events using the available online forms.
 
-- **Event Calendar** - ❌ **Not Started**
+- **Event Calendar**
     - Displays a list of upcoming events with filter options based on event category, date, or location.
 
-- **Notifications and Reminders** - ❌ **Not Started**
+- **Notifications and Reminders**
     - Reminders are sent via email or SMS for registration confirmation and event schedule updates.
 
-- **Venue and Resource Management** - ❌ **Not Started**
+- **Venue and Resource Management**
     - Manage event locations and resources needed such as equipment and supplies.
 
-- **Event Reviews and Feedback** - ❌ **Not Started**
+- **Event Reviews and Feedback**
     - Users can provide reviews and feedback after the event for further evaluation.
 
-- **Administrative Dashboard** - ❌ **Not Started**
+- **Administrative Dashboard**
     - Shows statistics such as the number of registrations, attendance, and event reviews.
 
 ## Technologies Used
@@ -54,13 +60,25 @@ efficiently.
    bun install
    ```
 
-3. Run the application in the development environment:
+3. Run generate prisma client:
+
+    ```bash
+   bunx prisma generate
+   ```
+
+4. Run prisma db push:
+
+    ```bash
+   bunx prisma db push
+   ```
+
+5. Run the application in the development environment:
 
    ```bash
    bun dev
    ```
 
-4. Access the application at `http://localhost:3000`.
+6. Access the application at `http://localhost:3000`.
 
 ## Migration and Database Seeding
 
