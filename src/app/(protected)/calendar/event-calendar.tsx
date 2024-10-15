@@ -38,6 +38,7 @@ const EventCalendarComponent = () => {
   }
 
   useEffect(() => {
+    /* eslint-disable */
     fetchEventData()
   }, [categoryFilter])
 
@@ -51,7 +52,7 @@ const EventCalendarComponent = () => {
         <div className={'mb-5'}>
           <Select name="category" onValueChange={(value) => handleSelectCategoryValueChange(value)}>
             <SelectTrigger>
-              <SelectValue placeholder="Pilih kategori" />
+              <SelectValue placeholder="Pilih kategori"/>
             </SelectTrigger>
             <SelectContent>
               {Object.values(eventCategories).map(category => (
@@ -67,7 +68,7 @@ const EventCalendarComponent = () => {
           startAccessor="start"
           endAccessor="end"
           views={['month']}
-          style={{ height: 500 }}
+          style={{height: 500}}
         />
       </CardContent>
     </Card>

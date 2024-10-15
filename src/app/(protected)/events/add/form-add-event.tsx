@@ -44,7 +44,7 @@ const FormAddEvent = ({ locations, resources }: { locations: Location[], resourc
     }))
   }
 
-  const handleResourceChange = (index: number, field: string, value: number) => {
+  const handleResourceChange = (index: number, field: string, value: string | number) => {
     const updatedResources = formData.resources.map((resource, i) => {
       if (i === index) {
         return { ...resource, [field]: value }
@@ -64,7 +64,7 @@ const FormAddEvent = ({ locations, resources }: { locations: Location[], resourc
     }))
   }
 
-  const removeResource = (index) => {
+  const removeResource = (index: number) => {
     setFormData(prevState => ({
       ...prevState,
       resources: prevState.resources.filter((_, i) => i !== index)
@@ -175,11 +175,11 @@ const FormAddEvent = ({ locations, resources }: { locations: Location[], resourc
 
           <div className="space-y-2">
             <Label>Peralatan Yang Dibutuhkan</Label>
-            {formData.resources.map((resource, index) => (
+            {formData.resources.map((resource: any, index: number) => (
               <div key={index} className="flex items-center space-x-2">
                 <Select
                   value={resource.resourceId}
-                  onValueChange={(value) => handleResourceChange(index, 'resourceId', value)}
+                  onValueChange={(value: string) => handleResourceChange(index, 'resourceId', value)}
                 >
                   <SelectTrigger className="w-[200px]">
                     <SelectValue placeholder="Pilih peralatan" />

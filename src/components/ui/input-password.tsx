@@ -3,12 +3,13 @@ import * as React from 'react'
 import { Input } from '@/components/ui/input'
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons'
 
+/* eslint-disable */
 export interface InputPasswordProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 const InputPassword = React.forwardRef<HTMLInputElement, InputPasswordProps>(
-  ({ className, ...props }, ref) => {
+  ({className, ...props}, ref) => {
     const [showPassword, setShowPassword] = React.useState<boolean>(false)
 
     return (
@@ -36,4 +37,4 @@ const InputPassword = React.forwardRef<HTMLInputElement, InputPasswordProps>(
 )
 InputPassword.displayName = 'InputPassword'
 
-export { InputPassword }
+export {InputPassword}

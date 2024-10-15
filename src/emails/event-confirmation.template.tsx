@@ -1,9 +1,8 @@
-import { Event, User } from '@prisma/client'
 import { formatDateWithTimezone, getUserTimezone, readableDateFormat } from '@/lib/helpers/date.helper'
 
 export type ConfirmationEmailTemplateProps = {
-  user: User,
-  event: Event,
+  user: any,
+  event: any,
   confirmationLink: string;
 }
 

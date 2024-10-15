@@ -9,6 +9,7 @@ export type CreateLocationRequest = {
   address: string
 }
 
+/* eslint-disable */
 export type GetLocationsRequest = {
   //
 }

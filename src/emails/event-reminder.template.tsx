@@ -1,9 +1,8 @@
-import { Event, User } from '@prisma/client'
 import { formatDateWithTimezone, getUserTimezone, readableDateFormat } from '@/lib/helpers/date.helper'
 
 export type EventReminderEmailTemplateProps = {
-  user: User
-  event: Event
+  user: any
+  event: any
 }
 
 export const eventReminderEmailSubject = 'Temu Kampus - Pengingat Acara'

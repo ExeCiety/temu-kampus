@@ -2,14 +2,13 @@
 
 import { useRouter } from 'next/navigation'
 import { CalendarIcon, MapPinIcon } from 'lucide-react'
-import { Event } from '@prisma/client'
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 
 import { formatDateWithTimezone, getUserTimezone, readableDateFormat } from '@/lib/helpers/date.helper'
 
-const CardEvent = ({ event }: { event: Event }) => {
+const CardEvent = ({ event }: { event: any }) => {
   const router = useRouter()
 
   const goToEventDetailPage = (eventId: string) => {

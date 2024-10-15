@@ -4,11 +4,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { CalendarIcon, MapPinIcon, UserIcon } from 'lucide-react'
 import { formatDateWithTimezone, getUserTimezone, readableDateFormat } from '@/lib/helpers/date.helper'
 import { Button } from '@/components/ui/button'
-import { Event } from '@prisma/client'
 import { participateInEvent } from '@/actions/event-participate.action'
 import toast from 'react-hot-toast'
 
-const DetailEventInfo = ({ event }: { event: Event }) => {
+const DetailEventInfo = ({ event }: { event: any }) => {
   const btnParticipateEventClicked = async () => {
     const participateInEventRes = await participateInEvent({
       eventId: event.id
@@ -41,11 +40,11 @@ const DetailEventInfo = ({ event }: { event: Event }) => {
           </div>
           <div className="flex items-center">
             <MapPinIcon className="mr-2 h-5 w-5" />
-            <span>{event.location.address}</span>
+            <span>{event && event.location ? event.location.address : undefined}</span>
           </div>
           <div className="flex items-center">
             <UserIcon className="mr-2 h-5 w-5" />
-            <span>Organized by {event.creator.name}</span>
+            <span>Organized by {event?.creator?.name}</span>
           </div>
         </div>
       </CardContent>

@@ -5,7 +5,7 @@ import { createEvent } from '@/actions/event.action'
 import { getLocations } from '@/actions/location.action'
 import { getResources } from '@/actions/resource.action'
 
-export const ButtonCreateEvent = ({ userId }: { userId: string }) => {
+export const ButtonCreateEvent = () => {
   const createEventData = async () => {
     const locationResponse = await getLocations()
     const resourceResponse = await getResources()

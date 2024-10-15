@@ -13,5 +13,7 @@ export const authConfig = {
     strategy: 'jwt'
   },
   adapter: PrismaAdapter(prisma),
+  trustHost: true,
+  
   providers: []
 } satisfies NextAuthConfig

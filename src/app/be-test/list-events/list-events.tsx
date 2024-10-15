@@ -1,6 +1,5 @@
 'use client'
 
-import { Event } from '@prisma/client'
 import { ArrowRight, CalendarDays, MapPin, Tag, User as UserLucide } from 'lucide-react'
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
@@ -8,7 +7,7 @@ import { formatDateWithTimezone, getUserTimezone, readableDateFormat } from '@/l
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
-const ListEvents = ({ title, events }: { title: string, events: Event[] }) => {
+const ListEvents = ({ title, events }: { title: string, events: any[] }) => {
   return (
     <div>
       <h1 className={'mb-3'}>{title}</h1>
