@@ -5,8 +5,9 @@ import { CalendarIcon, MapPinIcon } from 'lucide-react'
 import { Event } from '@prisma/client'
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { formatDateWithTimezone, getUserTimezone, readableDateFormat } from '@/lib/helpers/date.helper'
 import { Button } from '@/components/ui/button'
+
+import { formatDateWithTimezone, getUserTimezone, readableDateFormat } from '@/lib/helpers/date.helper'
 
 const CardEvent = ({ event }: { event: Event }) => {
   const router = useRouter()
@@ -17,9 +18,11 @@ const CardEvent = ({ event }: { event: Event }) => {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>{event.title}</CardTitle>
-        <CardDescription>{event.description}</CardDescription>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 p-6">
+        <div className="flex flex-col space-y-1">
+          <CardTitle>{event.title}</CardTitle>
+          <CardDescription>{event.description}</CardDescription>
+        </div>
       </CardHeader>
       <CardContent>
         <div className="space-y-2">

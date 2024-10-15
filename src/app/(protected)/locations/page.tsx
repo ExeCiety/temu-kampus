@@ -8,6 +8,7 @@ import { ContentLayoutBreadcrumb } from '@/components/layout/admin-panel/content
 import { SectionLayout } from '@/components/layout/admin-panel/section-layout/section-layout'
 import { SectionLayoutHeader } from '@/components/layout/admin-panel/section-layout/section-layout-header'
 import { DataTable } from '@/components/ui/data-table/data-table'
+import { Card, CardContent } from '@/components/ui/card'
 
 import { columns } from '@/app/(protected)/locations/(table)/columns'
 
@@ -39,7 +40,11 @@ const LocationsPage = async () => {
           buttonAddLabel="Tambah Lokoasi"
           buttonAddHref="/locations/create"
         />
-        <DataTable columns={columns} data={locations} />
+        <Card>
+          <CardContent className="mt-5">
+            <DataTable columns={columns} data={locations} />
+          </CardContent>
+        </Card>
       </SectionLayout>
     </ContentLayout>
   </>

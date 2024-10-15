@@ -8,6 +8,7 @@ import { SectionLayout } from '@/components/layout/admin-panel/section-layout/se
 import { SectionLayoutHeader } from '@/components/layout/admin-panel/section-layout/section-layout-header'
 import { ContentLayoutBreadcrumb } from '@/components/layout/admin-panel/content-layout/content-layout-breadcrumb'
 import { DataTable } from '@/components/ui/data-table/data-table'
+import { Card, CardContent } from '@/components/ui/card'
 
 import { columns } from '@/app/(protected)/resources/(table)/columns'
 
@@ -40,7 +41,11 @@ const ResourcesPage = async () => {
           buttonAddHref="/resources/create"
           buttonDeleteLabel="Hapus Peralatan"
         />
-        <DataTable columns={columns} data={resources} />
+        <Card>
+          <CardContent className="mt-5">
+            <DataTable columns={columns} data={resources} />
+          </CardContent>
+        </Card>
       </SectionLayout>
     </ContentLayout>
   </>

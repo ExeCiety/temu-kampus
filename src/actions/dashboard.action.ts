@@ -23,6 +23,15 @@ export const getDashboardStatisticsForAdmin = async () => {
       })
     }
 
+    // Get total users
+    const totalUsers = await prisma.user.count({
+      where: {
+        role: {
+          not: userRoles.admin.value
+        }
+      }
+    })
+
     // Get total student
     const totalStudent = await prisma.user.count({
       where: {
@@ -49,6 +58,7 @@ export const getDashboardStatisticsForAdmin = async () => {
     return createResponse({
       message: 'Berhasil mendapatkan data statistik dashboard',
       data: {
+        totalUsers,
         totalStudent,
         totalLecturers,
         totalEvent,
