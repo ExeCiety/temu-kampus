@@ -7,6 +7,7 @@ import { prisma } from '@/lib/prisma'
 import { validate } from '@/lib/validation'
 import { createResponse } from '@/lib/helpers/response.helper'
 import { eventParticipateStatuses } from '@/lib/helpers/event-participate.helper'
+import { userRoles } from '@/lib/helpers/user-role.helper'
 
 import {
   ConfirmEventParticipateSchema,
@@ -38,6 +39,12 @@ export const participateInEvent = async (data: UserParticipateInEventValues) => 
 
     if (!success)
       return createResponse({ errors })
+
+    if (userLoggedIn?.role === userRoles.admin.value) {
+      return createResponse({
+        message: 'Admin tidak dapat berpartisipasi dalam acara'
+      })
+    }
 
     // Check if the event exists and is upcoming
     const event = await prisma.event.findUnique({

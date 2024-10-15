@@ -41,6 +41,7 @@ export const createEvent = async (data: CreateEventValues) => {
     if (!success)
       return createResponse({ errors })
 
+    // Check if the location is available for the given date range
     const dateStartIso = convertDateStringToUTC(data.dateStart, defaultDateFormat)
     const dateEndIso = convertDateStringToUTC(data.dateEnd, defaultDateFormat)
 
