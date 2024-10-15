@@ -1,17 +1,14 @@
 import { notFound } from 'next/navigation'
 import { Event } from '@prisma/client'
 
-import { getEventDetail } from '@/actions/event.action'
-import { ContentLayout } from '@/components/layout/admin-panel/content-layout'
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator
-} from '@/components/ui/breadcrumb'
+import { BreadcrumbItemType } from '@/types/layout/admin-panel/content-layout/breadcrumb'
+
+import { ContentLayout } from '@/components/layout/admin-panel/content-layout/content-layout'
+import { ContentLayoutBreadcrumb } from '@/components/layout/admin-panel/content-layout/content-layout-breadcrumb'
 import DetailEventInfo from '@/app/(protected)/events/[eventId]/detail/detail-event-info'
 import DetailEventTab from '@/app/(protected)/events/[eventId]/detail/detail-event-tab'
+
+import { getEventDetail } from '@/actions/event.action'
 
 // This would typically come from your database
 async function getEvent(id: string) {
@@ -20,6 +17,11 @@ async function getEvent(id: string) {
 }
 
 const EventDetailPage = async ({ params }: { params: { eventId: string } }) => {
+  const breadcrumbItems = [
+    { label: 'Acara', href: '/events' },
+    { label: 'Detail Acara', isCurrent: true }
+  ] as BreadcrumbItemType[]
+
   const event = await getEvent(params.eventId)
 
   if (!event) {
@@ -29,21 +31,9 @@ const EventDetailPage = async ({ params }: { params: { eventId: string } }) => {
   return (
     <>
       <ContentLayout title="Acara">
-        <Breadcrumb className={'mb-3'}>
-          <BreadcrumbList>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Acara</BreadcrumbPage>
-            </BreadcrumbItem>
-            <BreadcrumbItem>
-              <BreadcrumbPage>Detail</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-
+        <ContentLayoutBreadcrumb breadcrumbItems={breadcrumbItems} />
         <div className={'container mx-auto px-4 py-8'}>
           <h1 className="text-3xl font-bold mb-6">Detail Acara</h1>
-
           <DetailEventInfo event={event} />
           <DetailEventTab event={event} />
         </div>

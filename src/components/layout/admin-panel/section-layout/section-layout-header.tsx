@@ -40,7 +40,7 @@ export const SectionLayoutHeader = ({
           {buttonAddLabel && buttonAddHref && (
             <Link
               href={buttonAddHref}
-              className={cn('sm:w-full', buttonVariants({ variant: 'default' }))}
+              className={cn('w-full', buttonVariants({ variant: 'default' }))}
             >
               <Plus className="mr-2 h-4 w-4" /> {buttonAddLabel}
             </Link>
