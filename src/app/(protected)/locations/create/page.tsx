@@ -6,6 +6,7 @@ import { ContentLayout } from '@/components/layout/admin-panel/content-layout/co
 import { ContentLayoutBreadcrumb } from '@/components/layout/admin-panel/content-layout/content-layout-breadcrumb'
 import { SectionLayout } from '@/components/layout/admin-panel/section-layout/section-layout'
 import { FormLocation } from '@/app/(protected)/locations/form-location'
+import { Card, CardContent } from '@/components/ui/card'
 
 export const metadata: Metadata = {
   title: 'Tambah Lokasi'
@@ -21,7 +22,11 @@ const LocationsCreatePage = () => {
     <ContentLayout title="Tambah Lokasi">
       <ContentLayoutBreadcrumb breadcrumbItems={breadcrumbItems} />
       <SectionLayout>
-        <FormLocation />
+        <Card>
+          <CardContent className="mt-5">
+            <FormLocation />
+          </CardContent>
+        </Card>
       </SectionLayout>
     </ContentLayout>
   </>

@@ -12,6 +12,27 @@ import {
 } from '@/schemas/event/review.schema'
 import { prisma } from '@/lib/prisma'
 
+export const checkUserHasSubmittedReview = async (eventId: string) => {
+  const session = await auth()
+  if (!session || (session && !session.user)) {
+    return createResponse({
+      message: 'Anda tidak memiliki akses'
+    })
+  }
+
+  const userLoggedIn = session.user
+
+  const existingReview = await prisma.review.findFirst({
+    where: {
+      userId: userLoggedIn?.id || '',
+      eventId
+    },
+    select: { id: true }
+  })
+
+  return !!existingReview
+}
+
 export const createEventReview = async (data: CreateEventReviewValues) => {
   try {
     const session = await auth()
@@ -36,7 +57,8 @@ export const createEventReview = async (data: CreateEventReviewValues) => {
           userId: userLoggedIn?.id || '',
           eventId: data.eventId
         }
-      }
+      },
+      select: { id: true }
     })
 
     if (!participation) {
@@ -61,6 +83,20 @@ export const createEventReview = async (data: CreateEventReviewValues) => {
     if (now < event.dateEnd) {
       return createResponse({
         message: 'Ulasan hanya dapat diberikan setelah acara selesai.'
+      })
+    }
+
+    // Check if the user has already submitted a review for this event
+    const existingReview = await prisma.review.findFirst({
+      where: {
+        userId: userLoggedIn?.id,
+        eventId: data.eventId
+      }
+    })
+
+    if (existingReview) {
+      return createResponse({
+        message: 'Anda sudah memberikan ulasan untuk acara ini.'
       })
     }
 

@@ -12,7 +12,6 @@ import { CreateResourceSchema, CreateResourceValues } from '@/schemas/event/reso
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
 
 import { createResource, updateResource } from '@/actions/resource.action'
 import { Resource } from '@/types/event/resource.type'
@@ -30,7 +29,7 @@ export const FormResource = ({ resource }: FormResourceProps) => {
     defaultValues: {
       name: resource?.name || '',
       quantity: resource?.quantity || 0,
-      consumable: resource?.consumable || false
+      consumable: false
     }
   })
 
@@ -39,7 +38,7 @@ export const FormResource = ({ resource }: FormResourceProps) => {
       form.reset({
         name: resource.name,
         quantity: resource.quantity,
-        consumable: resource.consumable
+        consumable: false
       })
     }
   }, [resource, form])
@@ -102,27 +101,6 @@ export const FormResource = ({ resource }: FormResourceProps) => {
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="consumable"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
-                  <FormControl>
-                    <Checkbox
-                      disabled={isPending}
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel className={`${isPending ? 'text-gray-500 cursor-not-allowed' : ''}`}>
-                      Barang Habis Pakai?
-                    </FormLabel>
-                  </div>
                   <FormMessage />
                 </FormItem>
               )}

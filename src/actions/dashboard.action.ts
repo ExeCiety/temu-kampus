@@ -49,6 +49,9 @@ export const getDashboardStatisticsForAdmin = async () => {
     // Get total event
     const totalEvent = await prisma.event.count()
 
+    // Get total event review
+    const totalEventReview = await prisma.review.count()
+
     // Get total resource
     const totalResource = await prisma.resource.count()
 
@@ -62,6 +65,7 @@ export const getDashboardStatisticsForAdmin = async () => {
         totalStudent,
         totalLecturers,
         totalEvent,
+        totalEventReview,
         totalResource,
         totalLocation
       }
@@ -94,6 +98,13 @@ export const getDashboardStatisticsForUser = async () => {
       }
     })
 
+    // Get total event reviewed by user
+    const totalEventReviewedByUser = await prisma.review.count({
+      where: {
+        userId: userLoggedIn?.id
+      }
+    })
+
     // Get total event created by user
     const totalEventCreatedByUser = await prisma.event.count({
       where: {
@@ -105,6 +116,7 @@ export const getDashboardStatisticsForUser = async () => {
       message: 'Berhasil mendapatkan data statistik dashboard',
       data: {
         totalParticipateInEvent,
+        totalEventReviewedByUser,
         totalEventCreatedByUser
       }
     })

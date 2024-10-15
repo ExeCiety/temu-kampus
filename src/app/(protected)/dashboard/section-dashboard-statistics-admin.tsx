@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { BookOpen, Box, CalendarArrowUp, GraduationCap, MapPin, Users } from 'lucide-react'
+import { BookOpen, Box, CalendarArrowUp, GraduationCap, MapPin, Stars, Users } from 'lucide-react'
 import { ReloadIcon } from '@radix-ui/react-icons'
 
 import { SectionLayout } from '@/components/layout/admin-panel/section-layout/section-layout'
@@ -16,6 +16,7 @@ const getStatistics = async () => {
     totalStudent: number
     totalLecturers: number
     totalEvent: number
+    totalEventReview: number
     totalResource: number
     totalLocation: number
   }
@@ -27,6 +28,7 @@ export const SectionDashboardStatisticsAdmin = () => {
     totalStudent: 0,
     totalLecturers: 0,
     totalEvent: 0,
+    totalEventReview: 0,
     totalResource: 0,
     totalLocation: 0
   })
@@ -88,7 +90,7 @@ export const SectionDashboardStatisticsAdmin = () => {
           </CardContent>
         </Card>
       </SectionLayout>
-      <SectionLayout className="grid gap-4 md:grid-cols-3">
+      <SectionLayout className="grid gap-4 md:grid-cols-2">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-base font-medium">
@@ -119,6 +121,8 @@ export const SectionDashboardStatisticsAdmin = () => {
             )}
           </CardContent>
         </Card>
+      </SectionLayout>
+      <SectionLayout className="grid gap-4 md:grid-cols-2">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-base font-medium">
@@ -131,6 +135,21 @@ export const SectionDashboardStatisticsAdmin = () => {
               <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
             ) : (
               <div className="text-2xl font-bold">{statistics.totalEvent}</div>
+            )}
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-base font-medium">
+              Total Ulasan
+            </CardTitle>
+            <Stars />
+          </CardHeader>
+          <CardContent>
+            {isLoading ? (
+              <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <div className="text-2xl font-bold">{statistics.totalEventReview}</div>
             )}
           </CardContent>
         </Card>

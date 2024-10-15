@@ -36,13 +36,13 @@ export const columns: ColumnDef<Resource>[] = [
     accessorKey: 'quantity',
     header: 'Jumlah'
   },
-  {
-    accessorKey: 'consumable',
-    header: 'Terpakai',
-    cell: ({ row }) => {
-      return row.original.consumable ? 'Ya' : 'Tidak'
-    }
-  },
+  // {
+  //   accessorKey: 'consumable',
+  //   header: 'Terpakai',
+  //   cell: ({ row }) => {
+  //     return row.original.consumable ? 'Ya' : 'Tidak'
+  //   }
+  // },
   {
     id: 'actions',
     header: 'Aksi',
