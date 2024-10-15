@@ -2,17 +2,15 @@ import bcrypt from 'bcryptjs'
 
 import { prisma } from '@/lib/prisma'
 import { defaultSaltRounds } from '@/lib/helpers/bcryptjs.helper'
+import { userRoles } from '@/lib/helpers/user-role.helper'
 
 const userAdminSeeder = async () => {
-  // Check if admin user already exists
   const email = 'admin@temukampus.com'
-  const adminUser = await prisma.user.findUnique({
+  const user = await prisma.user.findUnique({
     where: { email }
   })
 
-  // If admin user exist, dont create new admin user
-  if (adminUser) {
-    console.log('Admin user already exists')
+  if (user) {
     return
   }
 
@@ -21,11 +19,55 @@ const userAdminSeeder = async () => {
       name: 'Admin',
       email: email,
       password: bcrypt.hashSync('admin1234!', defaultSaltRounds),
-      role: 'admin'
+      role: userRoles.admin.value
     }
   })
 
   console.log('Admin user created')
+}
+
+const userLecturerSeeder = async () => {
+  const email = 'lecturer@temukampus.com'
+  const user = await prisma.user.findUnique({
+    where: { email }
+  })
+
+  if (user) {
+    return
+  }
+
+  await prisma.user.create({
+    data: {
+      name: 'Lecturer',
+      email: email,
+      password: bcrypt.hashSync('lecturer1234!', defaultSaltRounds),
+      role: userRoles.lecturers.value
+    }
+  })
+
+  console.log('Lecturer user created')
+}
+
+const userStudentSeeder = async () => {
+  const email = 'student@temukampus.com'
+  const user = await prisma.user.findUnique({
+    where: { email }
+  })
+
+  if (user) {
+    return
+  }
+
+  await prisma.user.create({
+    data: {
+      name: 'Student',
+      email: email,
+      password: bcrypt.hashSync('student1234!', defaultSaltRounds),
+      role: userRoles.students.value
+    }
+  })
+
+  console.log('Student user created')
 }
 
 const locationSeeder = async () => {
@@ -52,6 +94,8 @@ const resourceSeeder = async () => {
 
 const main = async () => {
   await userAdminSeeder()
+  await userLecturerSeeder()
+  await userStudentSeeder()
   await locationSeeder()
   await resourceSeeder()
 }

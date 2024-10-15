@@ -11,6 +11,18 @@ efficiently.
 https://temu-kampus.vercel.app/
 ```
 
+## Users
+
+1. Admin
+    - Email: admin@temukampus.com
+    - Password: admin1234!
+2. Lecturer
+    - Email: lecturer@temukampus.com
+    - Password: lecturer1234!
+3. Student
+    - Email: student@temukampus.com
+    - Password: student1234!
+
 ## Key Features
 
 - **User Registration and Login**
