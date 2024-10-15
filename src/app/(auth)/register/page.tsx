@@ -15,7 +15,6 @@ const RegisterPage = () => {
         subtitle="Daftar sekarang dan akses berbagai acara menarik di kampusmu."
         imageUrl="/images/page/auth/register/1.png"
         imageAlt="Register Illustration"
-        imageWidthInVW={90}
       />
       <CardWrapper
         headerLabel="Buat Akun"

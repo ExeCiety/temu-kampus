@@ -15,6 +15,7 @@ const LoginPage = () => {
         subtitle="Masuk untuk menemukan dan mengelola acara kampus favoritmu."
         imageUrl="/images/page/auth/login/1.png"
         imageAlt="Login Illustration"
+        imageWidthInVW={25}
       />
       <CardWrapper
         headerLabel="Selamat Datang Kembali!"
