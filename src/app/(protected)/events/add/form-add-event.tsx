@@ -14,6 +14,7 @@ import { formatDateWithTimezone } from '@/lib/helpers/date.helper'
 import { createEvent } from '@/actions/event.action'
 import toast from 'react-hot-toast'
 import { PlusCircle, X } from 'lucide-react'
+import { eventCategories } from '@/lib/helpers/event.helper'
 
 const FormAddEvent = ({ locations, resources }: { locations: Location[], resources: Resource[] }) => {
   const router = useRouter()
@@ -149,10 +150,9 @@ const FormAddEvent = ({ locations, resources }: { locations: Location[], resourc
                 <SelectValue placeholder="Pilih kategori" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Konferensi">Konferensi</SelectItem>
-                <SelectItem value="Workshop">Workshop</SelectItem>
-                <SelectItem value="Seminar">Seminar</SelectItem>
-                <SelectItem value="Lainnya">Lainnya</SelectItem>
+                {Object.values(eventCategories).map(category => (
+                  <SelectItem key={category.value} value={category.value}>{category.label}</SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>

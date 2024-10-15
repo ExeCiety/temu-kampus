@@ -208,6 +208,7 @@ export const getEvents = async (data: GetEventsValues) => {
     })
 
     return createResponse({
+      success: true,
       message: 'Berhasil mendapatkan data acara',
       data: events
     })
