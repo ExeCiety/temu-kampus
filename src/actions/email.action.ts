@@ -6,7 +6,7 @@ import { prisma } from '@/lib/prisma'
 
 import { createResponse } from '@/lib/helpers/response.helper'
 import { eventReminderEmailSubject, eventReminderEmailTemplate } from '@/emails/event-reminder.template'
-import { eventConfirmationEmailTemplate } from '@/emails/event-confirmation.template'
+import { eventConfirmationEmailSubject, eventConfirmationEmailTemplate } from '@/emails/event-confirmation.template'
 import { getEventConfirmationLink } from '@/lib/helpers/event.helper'
 
 export const sendEmailEventReminder = async (
@@ -59,7 +59,7 @@ export const sendEmailEventConfirmation = async (
   try {
     await sendEmail({
       to: user.email,
-      subject: eventReminderEmailSubject,
+      subject: eventConfirmationEmailSubject,
       html: eventConfirmationEmailTemplate({ user, event, confirmationLink: getEventConfirmationLink(eventParticipant) })
     })
 

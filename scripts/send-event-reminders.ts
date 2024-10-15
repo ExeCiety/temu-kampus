@@ -5,7 +5,7 @@ import { sendEmailEventReminder } from '@/actions/email.action'
 import { eventParticipateStatuses } from '@/lib/helpers/event-participate.helper'
 
 // Schedule the task to run daily at 9 AM
-cron.schedule('23 21 * * *', async () => {
+cron.schedule('00 08 * * *', async () => {
   console.log('Checking for upcoming events...')
 
   const tomorrow = new Date()
