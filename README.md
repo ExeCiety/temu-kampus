@@ -65,32 +65,59 @@ https://temu-kampus.vercel.app/
    git clone https://github.com/username/temu-kampus.git
    cd temu-kampus
    ```
+2. Copy the `.env.example` file to `.env`and update the environment variables:
 
-2. Install dependencies using Bun:
+   ```bash
+   cp .env.example .env
+   ```
+
+3. Install dependencies using Bun:
 
    ```bash
    bun install
    ```
 
-3. Run generate prisma client:
+4. Run generate prisma client:
 
     ```bash
    bunx prisma generate
    ```
 
-4. Run prisma db push:
+5. Run prisma db push:
 
     ```bash
    bunx prisma db push
    ```
 
-5. Run the application in the development environment:
+6. Run the application in the development environment:
 
    ```bash
    bun dev
    ```
 
-6. Access the application at `http://localhost:3000`.
+7. Access the application at `http://localhost:3000`.
+
+## Install via Docker
+
+1. Run generate ops/generate-mongodb-keyfile.sh:
+
+    ```bash
+   ops/generate-mongodb-keyfile.sh
+   ```
+
+2. Copy the `ops/.env.example` file to `ops/.env`and update the environment variables:
+
+   ```bash
+   cp ops/.env.example ops/.env
+   ```
+
+3. Run docker-compose up:
+
+    ```bash
+   docker compose -f ops/dev.docker-compose.yml -p temu-kampus up -d --build
+   ```
+
+4. Access the application at `http://localhost:7001`.
 
 ## Migration and Database Seeding
 
